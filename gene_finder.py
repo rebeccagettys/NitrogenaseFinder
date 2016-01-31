@@ -73,7 +73,7 @@ def get_reverse_complement(dna):
         finallist.append(element)
         finalstring = ''.join(finallist)
     return finalstring
-
+ #FIXME: too slow a method nom nom memory
 
 def find_stop(dna):
     """
@@ -85,22 +85,15 @@ def find_stop(dna):
     >>> find_stop("ATGTGAATGA")
     3
     """
-    # PYTHON COUNTS FROM ZERO
-    stop1 = 'TAG'
-    stop2 = 'TAA'
-    stop3 = 'TGA'
-    stoploc1 = dna.find(stop1)
-    stoploc2 = dna.find(stop2)
-    stoploc3 = dna.find(stop3)
-    if stoploc1 != -1:
- #location of the first phrase of the stop codon
-        return stoploc1
-    elif stoploc2 !=-1:
-        return stoploc2
-    elif stoploc3 != -1:
-        return stoploc3
-    else:
-        return -1
+    for i in range(len(dna)):
+        codon = dna[i:i+3]
+        if codon == 'TAG' and i%3 == 0:
+            return i
+        elif codon == 'TAA' and i%3 == 0:
+            return i
+        elif codon == 'TGA' and i%3 == 0:
+            return i
+    return -1
     #FIXED: this may not function correctly if there are multiple stop codons! all better
 
 
@@ -117,12 +110,15 @@ def rest_of_ORF(dna):
     'ATG'
     >>> rest_of_ORF("ATGAGATAGG")
     'ATGAGA'
-    >>> rest_of_ORF("ATGAGATAGTAG")
-    'ATGAGA'
+    >>> rest_of_ORF("ATGAGTAGATAGTAG")
+    'ATGAGTAGA'
     >>> rest_of_ORF("TGA")
     ''
-
+    >>> rest_of_ORF("AAAAA")
+    'AAAAA'
     """
+
+
 
     stoplocation = find_stop(dna)
     if stoplocation > 0 or stoplocation == 0:
@@ -132,7 +128,39 @@ def rest_of_ORF(dna):
         return dna
 
 
+def find_start(dna):
+    """
+    Finds the location of the start codon.
+    dna: a dna sequence
+    returns: the location of the first letter of the start codon
+    >>> find_start("AAGATGA")
+    3
+    >>> find_start("AAGATGGATG")
+    3
+    >>> find_start("ATG")
+    0
+    """
+    # PYTHON COUNTS FROM ZERO
+    startcodon = 'ATG'
+    # startloc = dna.find(startcodon)
+    # if startloc != -1 and i%3 == 0:
+    #location of the first phrase of the stop codon
+    #   return startloc
+    # elif startloc != -1 and i%3 != 0:
+    #    dna.find(startcodon+3:end)
+    #else:
+    #   return -1
 
+    for i in range(len(dna)):
+        codon = dna[i:i+3]
+        if codon == 'ATG' and i%3 == 0:
+            return i
+
+        #else:
+        #   continue
+    return -1
+
+    # when we get here, THERE ARE NO START CODONS SO WE ERROR
 
 def find_all_ORFs_oneframe(dna):
     """ Finds all non-nested open reading frames in the given DNA
@@ -147,9 +175,20 @@ def find_all_ORFs_oneframe(dna):
     >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
     ['ATGCATGAATGTAGA', 'ATGTGCCC']
     """
-    # TODO: implement thislala
 
-    pass
+
+
+    # have to start from previous stop location
+    startlocation =find_start(dna)
+    dnalist = []
+
+    while  startlocation >= 0:
+        orfout = rest_of_ORF(dna[startlocation:])
+        dna = dna[startlocation + len(orfout):]
+        dnalist.append(orfout)
+        startlocation =find_start(dna)
+    return dnalist
+
 
 
 def find_all_ORFs(dna):
@@ -165,9 +204,14 @@ def find_all_ORFs(dna):
     >>> find_all_ORFs("ATGCATGAATGTAG")
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
     """
-    # TODO: implement this
-    pass
-
+    dnalist1= find_all_ORFs_oneframe(dna)
+    dnalist2 =find_all_ORFs_oneframe('C' + dna)
+    dnalist3 = find_all_ORFs_oneframe('CC' + dna)
+    finaldnalist = []
+    finaldnalist.extend(dnalist1)
+    finaldnalist.extend(dnalist3)
+    finaldnalist.extend(dnalist2)
+    return finaldnalist
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -178,9 +222,15 @@ def find_all_ORFs_both_strands(dna):
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
     """
-    # TODO: implement this
-    pass
+    regularorfs= find_all_ORFs(dna)
+    revdna=get_reverse_complement(dna)
+    revorfs = find_all_ORFs(revdna)
+    finaldnalist = []
+    finaldnalist.extend(regularorfs)
+    finaldnalist.extend(revorfs)
+    return finaldnalist
 
+# stop here for week1
 
 def longest_ORF(dna):
     """ Finds the longest ORF on both strands of the specified DNA and returns it
