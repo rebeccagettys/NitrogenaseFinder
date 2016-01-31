@@ -29,16 +29,20 @@ def get_complement(nucleotide):
     'T'
     >>> get_complement('C')
     'G'
+    >>> get_complement('G')
+    'C'
+    >>> get_complement('T')
+    'A'
     """
-    # TODO: implement this
-    if nucleotide == 'A'
+    if nucleotide == 'A':
         return 'T'
-    elif nucleotide == 'T'
+    elif nucleotide == 'T':
         return 'A'
-    elif nucleotide == 'C'
+    elif nucleotide == 'C':
         return 'G'
-    elif nucleotide == 'G'
+    elif nucleotide == 'G':
         return 'C'
+
 
 
 def get_reverse_complement(dna):
@@ -51,9 +55,54 @@ def get_reverse_complement(dna):
     'AAAGCGGGCAT'
     >>> get_reverse_complement("CCGCGTTCA")
     'TGAACGCGG'
+    >>> get_reverse_complement("CATCCCTAAATAACGGCACTC")
+    'GAGTGCCGTTATTTAGGGATG'
     """
-    # TODO: implement this
-    pass
+
+    #for character in(dna):
+     #   print character
+
+    dnalist = list (dna) #dna in correct order
+    dnalist.reverse() #dna in complement order now
+    finallist = list () #create a totally empty list
+    #for item in dnalist:
+     #   item = get_complement(item)
+    for element in dnalist: #taking reversed element list, getting complement, putting it in final list
+        element = get_complement(element)
+        #print element
+        finallist.append(element)
+        finalstring = ''.join(finallist)
+    return finalstring
+
+
+def find_stop(dna):
+    """
+    Finds the location of the stop codon.
+    dna: a dna sequence
+    returns: the location of the first letter of the stop codon
+    >>> find_stop("ATGTGAA")
+    3
+    >>> find_stop("ATGTGAATGA")
+    3
+    """
+    # PYTHON COUNTS FROM ZERO
+    stop1 = 'TAG'
+    stop2 = 'TAA'
+    stop3 = 'TGA'
+    stoploc1 = dna.find(stop1)
+    stoploc2 = dna.find(stop2)
+    stoploc3 = dna.find(stop3)
+    if stoploc1 != -1:
+ #location of the first phrase of the stop codon
+        return stoploc1
+    elif stoploc2 !=-1:
+        return stoploc2
+    elif stoploc3 != -1:
+        return stoploc3
+    else:
+        return -1
+    #FIXED: this may not function correctly if there are multiple stop codons! all better
+
 
 
 def rest_of_ORF(dna):
@@ -68,9 +117,21 @@ def rest_of_ORF(dna):
     'ATG'
     >>> rest_of_ORF("ATGAGATAGG")
     'ATGAGA'
+    >>> rest_of_ORF("ATGAGATAGTAG")
+    'ATGAGA'
+    >>> rest_of_ORF("TGA")
+    ''
+
     """
-    # TODO: implement this
-    pass
+
+    stoplocation = find_stop(dna)
+    if stoplocation > 0 or stoplocation == 0:
+        output_sequence = dna[:stoplocation]
+        return output_sequence
+    elif stoplocation <0:
+        return dna
+
+
 
 
 def find_all_ORFs_oneframe(dna):
@@ -87,6 +148,7 @@ def find_all_ORFs_oneframe(dna):
     ['ATGCATGAATGTAGA', 'ATGTGCCC']
     """
     # TODO: implement this
+
     pass
 
 
