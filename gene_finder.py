@@ -33,17 +33,20 @@ def get_complement(nucleotide):
     'C'
     >>> get_complement('T')
     'A'
+    >>> get_complement('L')
+    -1
     """
-    if nucleotide == 'A':
+    if nucleotide == 'A': #change A to T
         return 'T'
-    elif nucleotide == 'T':
+    elif nucleotide == 'T': # T to A
         return 'A'
-    elif nucleotide == 'C':
+    elif nucleotide == 'C': # C to G
         return 'G'
-    elif nucleotide == 'G':
+    elif nucleotide == 'G': # G to C
         return 'C'
-
-
+#should I have a negative one, you didn't feed me a valid dna sequence
+    else:
+        return -1
 
 def get_reverse_complement(dna):
     """ Computes the reverse complementary sequence of DNA for the specfied DNA
@@ -68,10 +71,9 @@ def get_reverse_complement(dna):
     #for item in dnalist:
      #   item = get_complement(item)
     for element in dnalist: #taking reversed element list, getting complement, putting it in final list
-        element = get_complement(element)
-        #print element
-        finallist.append(element)
-        finalstring = ''.join(finallist)
+        element = get_complement(element) #now we have the complement
+        finallist.append(element) #stick that one on the end
+        finalstring = ''.join(finallist) #smoosh the list into a string
     return finalstring
  #FIXME: too slow a method nom nom memory
 
@@ -84,16 +86,18 @@ def find_stop(dna):
     3
     >>> find_stop("ATGTGAATGA")
     3
+    >>> find_stop("ATAAAA")
+    -1
     """
     for i in range(len(dna)):
         codon = dna[i:i+3]
-        if codon == 'TAG' and i%3 == 0:
+        if codon == 'TAG' and i%3 == 0: #if it's in the frame and is a stop codon
+            return i # tell us where it is
+        elif codon == 'TAA' and i%3 == 0: # same
             return i
-        elif codon == 'TAA' and i%3 == 0:
+        elif codon == 'TGA' and i%3 == 0: #same
             return i
-        elif codon == 'TGA' and i%3 == 0:
-            return i
-    return -1
+    return -1 # if we get here, it means we didn't find a stop so we want a -1 for logic
     #FIXED: this may not function correctly if there are multiple stop codons! all better
 
 
@@ -120,11 +124,11 @@ def rest_of_ORF(dna):
 
 
 
-    stoplocation = find_stop(dna)
-    if stoplocation > 0 or stoplocation == 0:
-        output_sequence = dna[:stoplocation]
-        return output_sequence
-    elif stoplocation <0:
+    stoplocation = find_stop(dna) #get where to stop
+    if stoplocation > 0 or stoplocation == 0: #if it's a reasonable place to stop
+        output_sequence = dna[:stoplocation] #slice the dna appropriately
+        return output_sequence #and spit that out
+    elif stoplocation <0: #otherwise just don't change the DNA and output it as is
         return dna
 
 
@@ -141,24 +145,17 @@ def find_start(dna):
     0
     """
     # PYTHON COUNTS FROM ZERO
-    startcodon = 'ATG'
-    # startloc = dna.find(startcodon)
-    # if startloc != -1 and i%3 == 0:
-    #location of the first phrase of the stop codon
-    #   return startloc
-    # elif startloc != -1 and i%3 != 0:
-    #    dna.find(startcodon+3:end)
-    #else:
-    #   return -1
+
+
 
     for i in range(len(dna)):
-        codon = dna[i:i+3]
-        if codon == 'ATG' and i%3 == 0:
-            return i
+        codon = dna[i:i+3] #get a codon
+        if codon == 'ATG' and i%3 == 0: #make sure it's a start codon and it's lined up correctly
+            return i #tell us the location
 
         #else:
         #   continue
-    return -1
+    return -1 #for logic
 
     # when we get here, THERE ARE NO START CODONS SO WE ERROR
 
@@ -174,19 +171,23 @@ def find_all_ORFs_oneframe(dna):
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
     ['ATGCATGAATGTAGA', 'ATGTGCCC']
+    >>> find_all_ORFs_oneframe("CCCATGCATGAATGTAGATAGATGTGCCC")
+    ['ATGCATGAATGTAGA', 'ATGTGCCC']
+    >>> find_all_ORFs_oneframe("CCAATTA")
+    []
     """
 
 
 
     # have to start from previous stop location
     startlocation =find_start(dna)
-    dnalist = []
+    dnalist = [] # blank list
 
-    while  startlocation >= 0:
-        orfout = rest_of_ORF(dna[startlocation:])
-        dna = dna[startlocation + len(orfout):]
-        dnalist.append(orfout)
-        startlocation =find_start(dna)
+    while  startlocation >= 0: # we want to stop after we get to the end
+        orfout = rest_of_ORF(dna[startlocation:]) #get the rest of the orf
+        dna = dna[startlocation + len(orfout):] #slice the orf off the dna
+        dnalist.append(orfout) #add the orf to the list of orfs
+        startlocation =find_start(dna) #get a new start location
     return dnalist
 
 
@@ -203,14 +204,20 @@ def find_all_ORFs(dna):
 
     >>> find_all_ORFs("ATGCATGAATGTAG")
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
+    >>> find_all_ORFs("")
+    []
+    >>> find_all_ORFs("CCATGCATGAATGTAG")
+    ['ATGAATGTAG', 'ATG', 'ATGCATGAATGTAG']
+    >>> find_all_ORFs("CATGCATGAATGTAG")
+    ['ATG', 'ATGCATGAATGTAG', 'ATGAATGTAG']
     """
-    dnalist1= find_all_ORFs_oneframe(dna)
-    dnalist2 =find_all_ORFs_oneframe('C' + dna)
-    dnalist3 = find_all_ORFs_oneframe('CC' + dna)
+    dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
+    dnalist2 =find_all_ORFs_oneframe('C' + dna) #shift by one, find orfs
+    dnalist3 = find_all_ORFs_oneframe('CC' + dna) #using C so that it can't add a start codon, just shifting it by two now, find ords
     finaldnalist = []
     finaldnalist.extend(dnalist1)
     finaldnalist.extend(dnalist3)
-    finaldnalist.extend(dnalist2)
+    finaldnalist.extend(dnalist2) #and just make a big list
     return finaldnalist
 
 def find_all_ORFs_both_strands(dna):
@@ -221,11 +228,13 @@ def find_all_ORFs_both_strands(dna):
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
+    >>> find_all_ORFs_both_strands("ATGCGAATG")
+    ['ATGCGAATG']
     """
-    regularorfs= find_all_ORFs(dna)
-    revdna=get_reverse_complement(dna)
-    revorfs = find_all_ORFs(revdna)
-    finaldnalist = []
+    regularorfs= find_all_ORFs(dna) # get all orfs on the regular strand
+    revdna=get_reverse_complement(dna) # get the reverse complement
+    revorfs = find_all_ORFs(revdna) #find the orfs of the reverse complement
+    finaldnalist = [] #stick em together on a list!
     finaldnalist.extend(regularorfs)
     finaldnalist.extend(revorfs)
     return finaldnalist
