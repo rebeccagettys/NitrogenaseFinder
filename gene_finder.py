@@ -206,18 +206,14 @@ def find_all_ORFs(dna):
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
     >>> find_all_ORFs("")
     []
-    >>> find_all_ORFs("CCATGCATGAATGTAG")
-    ['ATGAATGTAG', 'ATG', 'ATGCATGAATGTAG']
-    >>> find_all_ORFs("CATGCATGAATGTAG")
-    ['ATG', 'ATGCATGAATGTAG', 'ATGAATGTAG']
     """
     dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
-    dnalist2 =find_all_ORFs_oneframe('C' + dna) #shift by one, find orfs
-    dnalist3 = find_all_ORFs_oneframe('CC' + dna) #using C so that it can't add a start codon, just shifting it by two now, find ords
+    dnalist2 =find_all_ORFs_oneframe(dna[1:]) #shift by one, find orfs
+    dnalist3 = find_all_ORFs_oneframe(dna[2:]) #using C so that it can't add a start codon, just shifting it by two now, find ords
     finaldnalist = []
     finaldnalist.extend(dnalist1)
-    finaldnalist.extend(dnalist3)
     finaldnalist.extend(dnalist2) #and just make a big list
+    finaldnalist.extend(dnalist3)
     return finaldnalist
 
 def find_all_ORFs_both_strands(dna):
@@ -246,9 +242,18 @@ def longest_ORF(dna):
         as a string
     >>> longest_ORF("ATGCGAATGTAGCATCAAA")
     'ATGCTACATTCGCAT'
+    >>> longest_ORF("AAAAAAAA")
+    ''
     """
-    # TODO: implement this
-    pass
+    lenlist = []
+    orflist = find_all_ORFs_both_strands(dna)
+    if orflist == []:
+        return ''
+    for i in orflist:
+        lenlist.append(len(i)) #add length of that item in the orf list to the end of the length list
+    longestorfloc=lenlist.index(max(lenlist))
+    longestorf = orflist[longestorfloc]
+    return longestorf
 
 
 def longest_ORF_noncoding(dna, num_trials):
@@ -258,9 +263,23 @@ def longest_ORF_noncoding(dna, num_trials):
         dna: a DNA sequence
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
-    # TODO: implement this
-    pass
+    lengthy = 0
+    i = 0
 
+    while i < num_trials:
+        i = i +1
+        randomdna=shuffle_string(dna)
+        longestorf=longest_ORF(randomdna)
+        #lengths.append(len(longestorf))
+        if len(longestorf)>lengthy:
+            lengthy = len(longestorf)
+        #else: SO I know this is what it does:
+        #    lengthy = lengthy
+    #sortedlength = sorted(lengths)
+    #finallongest = sortedlength[num_trials-1] #biggest length
+    #return finallongest
+    return lengthy
+#print longest_ORF_noncoding("ATGCGAATGTAGCATCAAA", 5)
 
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
@@ -275,9 +294,15 @@ def coding_strand_to_AA(dna):
         'MR'
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
+        >>> coding_strand_to_AA("ATGCTCCTTATC")
+        'MLLI'
     """
-    # TODO: implement this
-    pass
+    aminoacidsequence = ''
+    for i in range(len(dna)/3):
+        codon = dna[3*i:3*i+3] #get a codon
+        amino_acid = aa_table[codon] #LOOK up the codon
+        aminoacidsequence = aminoacidsequence + amino_acid #add the new amino acid onto the end
+    return aminoacidsequence
 
 
 def gene_finder(dna):
@@ -286,9 +311,20 @@ def gene_finder(dna):
         dna: a DNA sequence
         returns: a list of all amino acid sequences coded by the sequence dna.
     """
-    # TODO: implement this
-    pass
+    aminoacids = []
+    threshold = longest_ORF_noncoding (dna,1500)
+    orflist = find_all_ORFs_both_strands(dna)
+    for i in orflist:
+        if len(i) >= threshold: #else ignore that item in the list
+            aminoacids.append(coding_strand_to_AA(i)) # get the amino acids for that dna sequence in the list and append that item to the list
+    return aminoacids
+
+
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+    from load import load_seq
+    dna = load_seq("./data/X73525.fa")
+    #dna = "ATGCTCCTTATC"
+    print gene_finder(dna)
