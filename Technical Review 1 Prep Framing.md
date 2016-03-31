@@ -1,7 +1,7 @@
 **Rebecca Gettys, Liv Kelley, Erica Lee**
 
 **Nitrogen Fixation Gene Analysis Project Proposal**
-
+Link to Slides: (https://docs.google.com/presentation/d/1WKHuqHWuO_hqYM5-ReRb3LxcIaa2dwi6mjbmYXJzYtY/edit#slide=id.p)
 **Goals for This Review**
 
 We would like to get some feedback and advice on areas of concern for us: optimization, algorithms, data structures, and dealing with large quantities of data. Mostly, we would like to pick your brains on how to have a successful, functional project because none of us have a ton of software development experience.
