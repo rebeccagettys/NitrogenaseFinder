@@ -1,0 +1,14 @@
+**Nitrogenes First Technical Review Feedback and Synthesis**
+
+Rebecca Gettys, Liv Kelley, Erica Lee
+
+**Feedback and decisions**
+
+The feedback that we received during the technical review was mostly recommendations for faster code execution, which was the main subject of our key questions. The suggestions included using numpy, pypy, list comprehensions,memoization, dynamic programming, and multithreading. Our peers suggested dynamic programming to greatly increase the speed of our fuzziness algorithm. They also suggested multithreading to better utilize the computational power of our computers because python is natively single threaded. Another suggestion was using memoization to increase the speed of the "fuzziness" algorithm. Pypy was suggested because it executes loops more quickly and will provide a good boost in execution speed as long as we have also optimized algorithms and other non-loop components. Our classmates also suggested list comprehensions in the main “gene finder” because they are much more efficient than loops, potentially eliminating the need for pypy all together. 
+
+We plan on looking more into list comprehensions and utilizing pypy. Our current to do list consists of investigating and implementing most of these suggestions and incorporating the "fuzziness" algorithm (probably Damerau-Levenshtein), with the gene location algorithm, which finds the location of the nitrogenase gene. We are going to use a memoized fuzziness algorithm and to use list comprehension within the main gene finder. We also will include Pypy as it will increase the speed of the remaining for loops (which after adding list comprehensions, should be much sparser). Finally, we will investigate adding multithreading and dynamic programming, but these techniques may be beyond the scope of our project’s learning goals and time frame given our groups programming experience.
+
+**Review process reflection**
+
+The review went well in general because the team divided time effectively and because we received answers to our key questions about how to make the program more efficient. The biggest problem we had was that we provided too little context for the presentation. We lacked the order in which we executed some of the different commands as well as the state the project was in. We could have resolved this by using pictures of our code and descriptive explanations. In the future, to remedy this lack of clarity, we would like to include UML diagrams and other visual representations of our code to help viewers to conceptualize our program. Despite this, we recovered somewhat by providing context later by explaining during the discussion time what we left out. We ended up sticking mostly to our agenda despite that we had to use some of the discussion time to explain our program, so we did not end up changing our general plans. 
+
