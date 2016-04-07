@@ -79,12 +79,14 @@ def get_reverse_complement(dna):
      #   print character
 
     dnalist = list(dna) #dna in correct order
-    dnalist.reverse() #dna in complement order now
+    # dnalist.reverse() #dna in complement order now
     # finallist = list() #create a totally empty list
     #for item in dnalist:
      #   item = get_complement(item)
+
     finallist = [get_complement(element) for element in dnalist]
     finalstring = ''.join(finallist)
+
     # for element in dnalist: #taking reversed element list, getting complement, putting it in final list
     #     element = get_complement(element) #now we have the complement
     #     finallist.append(element) #stick that one on the end
@@ -130,16 +132,14 @@ def rest_of_ORF(dna):
     >>> rest_of_ORF("ATGTGAA")
     'ATG'
     >>> rest_of_ORF("ATGAGATAGG")
-    'ATGAGA'
+    'ATGAGATGA'
     >>> rest_of_ORF("ATGAGTAGATAGTAG")
-    'ATGAGTAGA'
+    'ATGAGTAGATGA'
     >>> rest_of_ORF("TGA")
-    ''
+    'TGA'
     >>> rest_of_ORF("AAAAA")
     'AAAAA'
     """
-
-
 
     stoplocation = find_stop(dna) #get where to stop
     if stoplocation > 0 or stoplocation == 0: #if it's a reasonable place to stop
@@ -193,9 +193,6 @@ def find_all_ORFs_oneframe(dna):
     >>> find_all_ORFs_oneframe("CCAATTA")
     []
     """
-
-
-
     # have to start from previous stop location
     startlocation =find_start(dna)
     dnalist = [] # blank list
@@ -224,14 +221,25 @@ def find_all_ORFs(dna):
     >>> find_all_ORFs("")
     []
     """
-    dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
-    dnalist2 =find_all_ORFs_oneframe(dna[1:]) #shift by one, find orfs
-    dnalist3 = find_all_ORFs_oneframe(dna[2:]) #using C so that it can't add a start codon, just shifting it by two now, find ords
-    finaldnalist = []
-    finaldnalist.extend(dnalist1)
-    finaldnalist.extend(dnalist2) #and just make a big list
-    finaldnalist.extend(dnalist3)
-    return finaldnalist
+
+    ORFs = []
+    ORFs.extend((find_all_ORFs_oneframe(dna[0:])))
+    ORFs.extend((find_all_ORFs_oneframe(dna[1:])))
+    ORFs.extend((find_all_ORFs_oneframe(dna[2:])))
+
+
+
+    return ORFs
+
+
+    # dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
+    # dnalist2 =find_all_ORFs_oneframe(dna[1:]) #shift by one, find orfs
+    # dnalist3 = find_all_ORFs_oneframe(dna[2:]) #using C so that it can't add a start codon, just shifting it by two now, find ords
+    # finaldnalist = []
+    # finaldnalist.extend(dnalist1)
+    # finaldnalist.extend(dnalist2) #and just make a big list
+    # finaldnalist.extend(dnalist3)
+    # return finaldnalist
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -323,20 +331,20 @@ def longest_ORF_noncoding(dna, num_trials):
 #     return aminoacidsequence
 
 
-def gene_finder(dna):
-    """ Returns the amino acid sequences that are likely coded by the specified dna
+# def gene_finder(dna):
+#     """ Returns the amino acid sequences that are likely coded by the specified dna
 
-        dna: a DNA sequence
-        returns: a list of all amino acid sequences coded by the sequence dna.
-    """
-    aminoacids = []
-    threshold = longest_ORF_noncoding (dna,1500)
-    orflist = find_all_ORFs_both_strands(dna)
+#         dna: a DNA sequence
+#         returns: a list of all amino acid sequences coded by the sequence dna.
+#     """
+#     aminoacids = []
+#     threshold = longest_ORF_noncoding (dna,1500)
+#     orflist = find_all_ORFs_both_strands(dna)
 
-    # for i in orflist:
-    #     if len(i) >= threshold: #else ignore that item in the list
-    #         aminoacids.append(coding_strand_to_AA(i)) # get the amino acids for that dna sequence in the list and append that item to the list
-    return orflist
+#     # for i in orflist:
+#     #     if len(i) >= threshold: #else ignore that item in the list
+#     #         aminoacids.append(coding_strand_to_AA(i)) # get the amino acids for that dna sequence in the list and append that item to the list
+#     return orflist
 
 #GOING BEYOND CODE BEGINS HERE
 
@@ -350,16 +358,36 @@ if __name__ == "__main__":
     # from load import load_seq
     # dna = "ATGCGAATGTAGCATCAAA"
     # dna = load_seq("./data/X73525.fa") #From earlier code.
-
     i = 0
-    #while i<10:
-
-    #    for dna in [a[1] for a in metagenome]:
-      #      snippet = gene_finder(dna)
-    snippet = gene_finder(metagenome[9][1])
+    #for dna in [a[1] for a in metagenome]:
+        #snippet = find_all_ORFs_both_strands(dna)
+    snippet = find_all_ORFs_both_strands(metagenome[9][1])
     if nitrogenase in snippet:
         print i #dna
     else:
-        i += 1
         print 'False'
+
+    # snippet = gene_finder(metagenome[10][1])
+    # if nitrogenase in snippet:
+    #     print i #dna
+    # else:
+
+    #     print 'False'
+
+
+    # i = 0
+    # snippet = gene_finder(metagenome)
+    # for c in snippet:
+    #     print c #no stop codon
+    # print nitrogenase
+    # if nitrogenase in snippet:
+    #     print 'True', i #dna
+    # else:
+    #     i += 1
+    #     print 'False'
+
+# print metagenome[7][1] #Putting the metagenome into genefinder.
+# print metagenome[6][1]
+# print metagenome[8][1]
+    # snippet = gene_finder(dna)
 
