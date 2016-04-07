@@ -356,10 +356,10 @@ if __name__ == "__main__":
 
     #    for dna in [a[1] for a in metagenome]:
       #      snippet = gene_finder(dna)
-            snippet = gene_finder(metagenome[9][1])
-            if nitrogenase in snippet:
-                print i #dna
-            else:
-                i += 1
-                print 'False'
+    snippet = gene_finder(metagenome[9][1])
+    if nitrogenase in snippet:
+        print i #dna
+    else:
+        i += 1
+        print 'False'
 
