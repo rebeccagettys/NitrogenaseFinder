@@ -352,49 +352,14 @@ if __name__ == "__main__":
     # dna = load_seq("./data/X73525.fa") #From earlier code.
 
     i = 0
-    while i<10:
-        for dna in [a[1] for a in metagenome]:
-            snippet = gene_finder(dna)
+    #while i<10:
+
+    #    for dna in [a[1] for a in metagenome]:
+      #      snippet = gene_finder(dna)
+            snippet = gene_finder(metagenome[9][1])
             if nitrogenase in snippet:
                 print i #dna
             else:
                 i += 1
                 print 'False'
 
-    # i = 0
-    # snippet = gene_finder(metagenome)
-    # for c in snippet:
-    #     print c #no stop codon
-    # print nitrogenase
-    # if nitrogenase in snippet:
-    #     print 'True', i #dna
-    # else:
-    #     i += 1
-    #     print 'False'
-
-# print metagenome[7][1] #Putting the metagenome into genefinder.
-# print metagenome[6][1]
-# print metagenome[8][1]
-    # snippet = gene_finder(dna)
-
-
-    # def find_nitrogenase (dna, nitrogenase):
-    #     i = 0
-    #     n = 0
-    #     m = {}
-    #     for nitrogenous_base in snippet:
-    #         for nit_basepairs in nitrogenase:
-    #             while nit_basepairs == nitrogenase[i]:
-    #                 m[nit_basepairs[i]] =  m.get(nitrogenase[i], 0) + 1
-    #                 i += 1
-    #                 return m
-
-    # def find_nitrogenase (dna, nitrogenase):
-    #     if nitrogenase in snippet:
-    #         return True
-    #     else:
-    #         return False
-
-    # print snippet
-    # print nitrogenase
-    # print find_nitrogenase(dna, nitrogenase)
