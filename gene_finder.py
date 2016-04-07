@@ -8,14 +8,27 @@ YOUR HEADER COMMENT HERE
 
 import random
 from amino_acids import aa, codons, aa_table   # you may find these useful
+
+#Importing the metagenome
+
+from load import load_metagenome
+metagenome = load_metagenome()
+# metagenome = 'ATGGGAAAACTCCGGCAGATCGCTTTCTACGGCAAGGGCGGGATCGGCAAGTCGACGACCTCGCAGAACACCCTCGCGGCACTGGTCGAGATGGGTCAGAAGATCCTCATCGTCGGCTGCGATCCCAAGGCCGACTCGACCCGCCTGATCCTGAACACCAAGCTGCAGGACACCGTGCTTCACCTCGCCGCCGAAGCGGGCTCCGTCGAGGATCTCGAACTCGAGGATGTGGTCAAGATCGGCTACAAGGGCATCAAATGCACCGAAGCCGGCGGGCCGGAGCCGGGCGTGGGCTGCGCGGGCCGCGGCGTCATCACCGCCATCAACTTCCTGGAAGAGAACGGCGCCTATGACGACGTCGACTACGTCTCCTACGACGTGCTGGGCGACGTGGTCTGCGGCGGCTTCGCCATGCCGATCCGCGAGAACAAGGCGCAGGAAATCTACATCGTCATGTCGGGCGAGATGATGGCGCTCTATGCGGCCAACAACATCGCCAAGGGCATCCTGAAATACGCGAACTCGGGCGGCGTGCGCCTCGGCGGCCTGATCTGCAACGAGCGCAAGACCGACCGCGAGCTGGAACTGGCCGAGGCCCTCGCCGCGCGTCTGGGCTGCAAGATGATCCACTTCGTTCCGCGCGACAATATCGTGCAGCACGCCGAGCTCCGCCGCGAGACGGTCATCCAGTATGCGCCCGAGAGCAAGCAGGCGCAGGAATATCGCGAACTGGCCCGCAAGATCCACGAGAACTCGGGCAAGGGCGTGATCCCGACCCCGATCACCATGGAAGAGCTGGAAGAGATGCTGATGGATTTCGGCATCATGCAGTCCGAGGAAGACCGGCTCGCCGCCATCGCCGCCGCCGAGGCCTGA'
+
+
+
+#Loading the nitrogenase
+
 from load import load_seq
+from load import load_nitrogenase_seq
+nitrogenase = load_nitrogenase_seq()
 
 
-def shuffle_string(s):
-    """Shuffles the characters in the input string
-        NOTE: this is a helper function, you do not
-        have to modify this in any way """
-    return ''.join(random.sample(s, len(s)))
+# def shuffle_string(s):
+#     """Shuffles the characters in the input string
+#         NOTE: this is a helper function, you do not
+#         have to modify this in any way """
+#     return ''.join(random.sample(s, len(s)))
 
 # YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
 
@@ -65,15 +78,17 @@ def get_reverse_complement(dna):
     #for character in(dna):
      #   print character
 
-    dnalist = list (dna) #dna in correct order
+    dnalist = list(dna) #dna in correct order
     dnalist.reverse() #dna in complement order now
-    finallist = list () #create a totally empty list
+    # finallist = list() #create a totally empty list
     #for item in dnalist:
      #   item = get_complement(item)
-    for element in dnalist: #taking reversed element list, getting complement, putting it in final list
-        element = get_complement(element) #now we have the complement
-        finallist.append(element) #stick that one on the end
-        finalstring = ''.join(finallist) #smoosh the list into a string
+    finallist = [get_complement(element) for element in dnalist]
+    finalstring = ''.join(finallist)
+    # for element in dnalist: #taking reversed element list, getting complement, putting it in final list
+    #     element = get_complement(element) #now we have the complement
+    #     finallist.append(element) #stick that one on the end
+    #     finalstring = ''.join(finallist) #smoosh the list into a string
     return finalstring
  #FIXME: too slow a method nom nom memory
 
@@ -89,6 +104,7 @@ def find_stop(dna):
     >>> find_stop("ATAAAA")
     -1
     """
+    #try/except
     for i in range(len(dna)):
         codon = dna[i:i+3]
         if codon == 'TAG' and i%3 == 0: #if it's in the frame and is a stop codon
@@ -97,6 +113,7 @@ def find_stop(dna):
             return i
         elif codon == 'TGA' and i%3 == 0: #same
             return i
+
     return -1 # if we get here, it means we didn't find a stop so we want a -1 for logic
     #FIXED: this may not function correctly if there are multiple stop codons! all better
 
@@ -126,7 +143,7 @@ def rest_of_ORF(dna):
 
     stoplocation = find_stop(dna) #get where to stop
     if stoplocation > 0 or stoplocation == 0: #if it's a reasonable place to stop
-        output_sequence = dna[:stoplocation] #slice the dna appropriately
+        output_sequence = dna[:stoplocation+3] #slice the dna appropriately
         return output_sequence #and spit that out
     elif stoplocation <0: #otherwise just don't change the DNA and output it as is
         return dna
@@ -235,7 +252,7 @@ def find_all_ORFs_both_strands(dna):
     finaldnalist.extend(revorfs)
     return finaldnalist
 
-# stop here for week1
+
 
 def longest_ORF(dna):
     """ Finds the longest ORF on both strands of the specified DNA and returns it
@@ -268,7 +285,8 @@ def longest_ORF_noncoding(dna, num_trials):
 
     while i < num_trials:
         i = i +1
-        randomdna=shuffle_string(dna)
+        randomdna = dna
+        # randomdna=shuffle_string(dna)
         longestorf=longest_ORF(randomdna)
         #lengths.append(len(longestorf))
         if len(longestorf)>lengthy:
@@ -281,28 +299,28 @@ def longest_ORF_noncoding(dna, num_trials):
     return lengthy
 #print longest_ORF_noncoding("ATGCGAATGTAGCATCAAA", 5)
 
-def coding_strand_to_AA(dna):
-    """ Computes the Protein encoded by a sequence of DNA.  This function
-        does not check for start and stop codons (it assumes that the input
-        DNA sequence represents an protein coding region).
+# def coding_strand_to_AA(dna):
+#     """ Computes the Protein encoded by a sequence of DNA.  This function
+#         does not check for start and stop codons (it assumes that the input
+#         DNA sequence represents an protein coding region).
 
-        dna: a DNA sequence represented as a string
-        returns: a string containing the sequence of amino acids encoded by the
-                 the input DNA fragment
+#         dna: a DNA sequence represented as a string
+#         returns: a string containing the sequence of amino acids encoded by the
+#                  the input DNA fragment
 
-        >>> coding_strand_to_AA("ATGCGA")
-        'MR'
-        >>> coding_strand_to_AA("ATGCCCGCTTT")
-        'MPA'
-        >>> coding_strand_to_AA("ATGCTCCTTATC")
-        'MLLI'
-    """
-    aminoacidsequence = ''
-    for i in range(len(dna)/3):
-        codon = dna[3*i:3*i+3] #get a codon
-        amino_acid = aa_table[codon] #LOOK up the codon
-        aminoacidsequence = aminoacidsequence + amino_acid #add the new amino acid onto the end
-    return aminoacidsequence
+#         >>> coding_strand_to_AA("ATGCGA")
+#         'MR'
+#         >>> coding_strand_to_AA("ATGCCCGCTTT")
+#         'MPA'
+#         >>> coding_strand_to_AA("ATGCTCCTTATC")
+#         'MLLI'
+#     """
+#     aminoacidsequence = ''
+#     for i in range(len(dna)/3):
+#         codon = dna[3*i:3*i+3] #get a codon
+#         amino_acid = aa_table[codon] #LOOK up the codon
+#         aminoacidsequence = aminoacidsequence + amino_acid #add the new amino acid onto the end
+#     return aminoacidsequence
 
 
 def gene_finder(dna):
@@ -314,17 +332,69 @@ def gene_finder(dna):
     aminoacids = []
     threshold = longest_ORF_noncoding (dna,1500)
     orflist = find_all_ORFs_both_strands(dna)
-    for i in orflist:
-        if len(i) >= threshold: #else ignore that item in the list
-            aminoacids.append(coding_strand_to_AA(i)) # get the amino acids for that dna sequence in the list and append that item to the list
-    return aminoacids
+
+    # for i in orflist:
+    #     if len(i) >= threshold: #else ignore that item in the list
+    #         aminoacids.append(coding_strand_to_AA(i)) # get the amino acids for that dna sequence in the list and append that item to the list
+    return orflist
+
+#GOING BEYOND CODE BEGINS HERE
+
+
 
 
 
 if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
-    from load import load_seq
-    dna = load_seq("./data/X73525.fa")
-    #dna = "ATGCTCCTTATC"
-    print gene_finder(dna)
+    # import doctest
+    # doctest.testmod()
+    # from load import load_seq
+    # dna = "ATGCGAATGTAGCATCAAA"
+    # dna = load_seq("./data/X73525.fa") #From earlier code.
+
+    i = 0
+    while i<10:
+        for dna in [a[1] for a in metagenome]:
+            snippet = gene_finder(dna)
+            if nitrogenase in snippet:
+                print i #dna
+            else:
+                i += 1
+                print 'False'
+
+    # i = 0
+    # snippet = gene_finder(metagenome)
+    # for c in snippet:
+    #     print c #no stop codon
+    # print nitrogenase
+    # if nitrogenase in snippet:
+    #     print 'True', i #dna
+    # else:
+    #     i += 1
+    #     print 'False'
+
+# print metagenome[7][1] #Putting the metagenome into genefinder.
+# print metagenome[6][1]
+# print metagenome[8][1]
+    # snippet = gene_finder(dna)
+
+
+    # def find_nitrogenase (dna, nitrogenase):
+    #     i = 0
+    #     n = 0
+    #     m = {}
+    #     for nitrogenous_base in snippet:
+    #         for nit_basepairs in nitrogenase:
+    #             while nit_basepairs == nitrogenase[i]:
+    #                 m[nit_basepairs[i]] =  m.get(nitrogenase[i], 0) + 1
+    #                 i += 1
+    #                 return m
+
+    # def find_nitrogenase (dna, nitrogenase):
+    #     if nitrogenase in snippet:
+    #         return True
+    #     else:
+    #         return False
+
+    # print snippet
+    # print nitrogenase
+    # print find_nitrogenase(dna, nitrogenase)
