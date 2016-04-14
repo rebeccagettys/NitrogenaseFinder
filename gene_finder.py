@@ -135,9 +135,6 @@ def find_start(dna):
     >>> find_start("ATG")
     0
     """
-    # PYTHON COUNTS FROM ZERO
-
-
 
     for i in range(len(dna)):
         codon = dna[i:i+3] #get a codon
@@ -148,7 +145,6 @@ def find_start(dna):
         #   continue
     return -1 #for logic
 
-    # when we get here, THERE ARE NO START CODONS SO WE ERROR
 
 def find_all_ORFs_oneframe(dna):
     """ Finds all non-nested open reading frames in the given DNA

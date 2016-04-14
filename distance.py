@@ -1,20 +1,16 @@
-def fib(iterate):
-        #if iterate == 0:
-        #    return 0
-        #elif iterate ==1:
-        #    return 1
-        known = {0:0, 1:1} # basecases
-        if iterate in known:
-            return known[iterate]
-        else:
-            newfib = fib(iterate -1 ) + fib(iterate-2)
-            known[iterate] = newfib
-            return newfib
-#fib(10) #should be 55
-#fib(2) #should be 1
+import doctest
+doctest.testmod()
 
 known_memo = {}
 def levenshtein (a,b):
+    """This function calculates the Levenshtein distance between two iterables
+    a: first string
+    b: second string
+    returns: minimum levenshtein distance between the two strings as an integer
+    >>> levenshtein ("alphabet", "alphabetsoup")
+    4
+    """
+    # https://programmingpraxis.com/2014/09/12/levenshtein-distance/
     if a == b:
         return 0
     if len(a) == 0:
@@ -32,27 +28,5 @@ def levenshtein (a,b):
     return known_memo[(a,b)]
 
 
-
-
-
-
-
-memo = {}
-# https://programmingpraxis.com/2014/09/12/levenshtein-distance/
-def levenshtein_distance_recursive(a, b):
-    if a == b:
-        return 0
-    if a == "":
-        return len(b)
-    if b == "":
-        return len(a)
-    if (a, b) not in memo:
-        l1 = levenshtein_distance_recursive(a[1:], b) + 1
-        l2 = levenshtein_distance_recursive(a, b[1:]) + 1
-        l3 = levenshtein_distance_recursive(a[1:], b[1:]) + (a[0] != b[0])
-        memo[(a,b)] = min(l1, l2, l3)
-        #print memo
-    return memo[(a,b)]
-    #print memo[(a,b)]
-
-levenshtein_distance_recursive("alphabet", "alphabetsoup")
+val = levenshtein(a,b)
+print val
