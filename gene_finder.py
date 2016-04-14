@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-YOUR HEADER COMMENT HERE
-
-@author: YOUR NAME HERE
-
+Last updated: April 11, 2016
+Find Nitrogenase
+@author: Erica Lee, Rebecca Gettys, Liv Kelley
 """
 
 import random
@@ -24,18 +23,8 @@ from load import load_nitrogenase_seq
 nitrogenase = load_nitrogenase_seq()
 
 
-# def shuffle_string(s):
-#     """Shuffles the characters in the input string
-#         NOTE: this is a helper function, you do not
-#         have to modify this in any way """
-#     return ''.join(random.sample(s, len(s)))
-
-# YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
-
-
 def get_complement(nucleotide):
     """ Returns the complementary nucleotide
-
         nucleotide: a nucleotide (A, C, G, or T) represented as a string
         returns: the complementary nucleotide
     >>> get_complement('A')
@@ -64,7 +53,6 @@ def get_complement(nucleotide):
 def get_reverse_complement(dna):
     """ Computes the reverse complementary sequence of DNA for the specfied DNA
         sequence
-
         dna: a DNA sequence represented as a string
         returns: the reverse complementary DNA sequence represented as a string
     >>> get_reverse_complement("ATGCCCGCTTT")
@@ -126,7 +114,6 @@ def rest_of_ORF(dna):
         codon and returns the sequence up to but not including the
         first in frame stop codon.  If there is no in frame stop codon,
         returns the whole string.
-
         dna: a DNA sequence
         returns: the open reading frame represented as a string
     >>> rest_of_ORF("ATGTGAA")
@@ -183,7 +170,6 @@ def find_all_ORFs_oneframe(dna):
         (i.e. they start on indices that are multiples of 3).
         By non-nested we mean that if an ORF occurs entirely within
         another ORF, it should not be included in the returned list of ORFs.
-
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
@@ -212,10 +198,8 @@ def find_all_ORFs(dna):
         mean that if an ORF occurs entirely within another ORF and they are
         both in the same frame, it should not be included in the returned list
         of ORFs.
-
         dna: a DNA sequence
         returns: a list of non-nested ORFs
-
     >>> find_all_ORFs("ATGCATGAATGTAG")
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
     >>> find_all_ORFs("")
@@ -244,7 +228,6 @@ def find_all_ORFs(dna):
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
         strands.
-
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
@@ -284,7 +267,6 @@ def longest_ORF(dna):
 def longest_ORF_noncoding(dna, num_trials):
     """ Computes the maximum length of the longest ORF over num_trials shuffles
         of the specfied DNA sequence
-
         dna: a DNA sequence
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
@@ -305,30 +287,7 @@ def longest_ORF_noncoding(dna, num_trials):
     #finallongest = sortedlength[num_trials-1] #biggest length
     #return finallongest
     return lengthy
-#print longest_ORF_noncoding("ATGCGAATGTAGCATCAAA", 5)
 
-# def coding_strand_to_AA(dna):
-#     """ Computes the Protein encoded by a sequence of DNA.  This function
-#         does not check for start and stop codons (it assumes that the input
-#         DNA sequence represents an protein coding region).
-
-#         dna: a DNA sequence represented as a string
-#         returns: a string containing the sequence of amino acids encoded by the
-#                  the input DNA fragment
-
-#         >>> coding_strand_to_AA("ATGCGA")
-#         'MR'
-#         >>> coding_strand_to_AA("ATGCCCGCTTT")
-#         'MPA'
-#         >>> coding_strand_to_AA("ATGCTCCTTATC")
-#         'MLLI'
-#     """
-#     aminoacidsequence = ''
-#     for i in range(len(dna)/3):
-#         codon = dna[3*i:3*i+3] #get a codon
-#         amino_acid = aa_table[codon] #LOOK up the codon
-#         aminoacidsequence = aminoacidsequence + amino_acid #add the new amino acid onto the end
-#     return aminoacidsequence
 
 
 # def gene_finder(dna):
@@ -346,6 +305,7 @@ def longest_ORF_noncoding(dna, num_trials):
 #     #         aminoacids.append(coding_strand_to_AA(i)) # get the amino acids for that dna sequence in the list and append that item to the list
 #     return orflist
 
+
 #GOING BEYOND CODE BEGINS HERE
 
 
@@ -358,14 +318,34 @@ if __name__ == "__main__":
     # from load import load_seq
     # dna = "ATGCGAATGTAGCATCAAA"
     # dna = load_seq("./data/X73525.fa") #From earlier code.
+
+
+
+
     i = 0
-    #for dna in [a[1] for a in metagenome]:
-        #snippet = find_all_ORFs_both_strands(dna)
-    snippet = find_all_ORFs_both_strands(metagenome[9][1])
-    if nitrogenase in snippet:
-        print i #dna
-    else:
-        print 'False'
+    print len(metagenome)
+    print metagenome[20000]
+    # for a in metagenome:    #a is each tuple that is (label, DNA) in metagenome
+    #     dna = a[1]
+    #     snippet = find_all_ORFs_both_strands(dna)
+
+
+
+    #     # snippet = longest_ORF(dna)
+    #     # print len(snippet)
+
+
+    #     #I looked through everything in snippet and there really is no nitrogenase in there.
+    #     #But when given nitrogenase, it does return true
+    #     #I also ran this last part with Oliver's code and it also all returns false
+    #     #However, according to Jean, there should be multiple nitrogenase in here
+
+    #     i += 1
+
+    #     if nitrogenase in snippet:
+    #         print 'True',   i #dna
+    #     else:
+    #         print 'False'
 
     # snippet = gene_finder(metagenome[10][1])
     # if nitrogenase in snippet:
@@ -386,8 +366,4 @@ if __name__ == "__main__":
     #     i += 1
     #     print 'False'
 
-# print metagenome[7][1] #Putting the metagenome into genefinder.
-# print metagenome[6][1]
-# print metagenome[8][1]
-    # snippet = gene_finder(dna)
 
