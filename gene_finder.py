@@ -67,20 +67,9 @@ def get_reverse_complement(dna):
      #   print character
 
     dnalist = list(dna) #dna in correct order
-    # dnalist.reverse() #dna in complement order now
-    # finallist = list() #create a totally empty list
-    #for item in dnalist:
-     #   item = get_complement(item)
-
     finallist = [get_complement(element) for element in dnalist]
     finalstring = ''.join(finallist)
-
-    # for element in dnalist: #taking reversed element list, getting complement, putting it in final list
-    #     element = get_complement(element) #now we have the complement
-    #     finallist.append(element) #stick that one on the end
-    #     finalstring = ''.join(finallist) #smoosh the list into a string
     return finalstring
- #FIXME: too slow a method nom nom memory
 
 def find_stop(dna):
     """
@@ -105,8 +94,6 @@ def find_stop(dna):
             return i
 
     return -1 # if we get here, it means we didn't find a stop so we want a -1 for logic
-    #FIXED: this may not function correctly if there are multiple stop codons! all better
-
 
 
 def rest_of_ORF(dna):
@@ -216,14 +203,6 @@ def find_all_ORFs(dna):
     return ORFs
 
 
-    # dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
-    # dnalist2 =find_all_ORFs_oneframe(dna[1:]) #shift by one, find orfs
-    # dnalist3 = find_all_ORFs_oneframe(dna[2:]) #using C so that it can't add a start codon, just shifting it by two now, find ords
-    # finaldnalist = []
-    # finaldnalist.extend(dnalist1)
-    # finaldnalist.extend(dnalist2) #and just make a big list
-    # finaldnalist.extend(dnalist3)
-    # return finaldnalist
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -276,34 +255,13 @@ def longest_ORF_noncoding(dna, num_trials):
     while i < num_trials:
         i = i +1
         randomdna = dna
-        # randomdna=shuffle_string(dna)
         longestorf=longest_ORF(randomdna)
-        #lengths.append(len(longestorf))
         if len(longestorf)>lengthy:
             lengthy = len(longestorf)
-        #else: SO I know this is what it does:
-        #    lengthy = lengthy
-    #sortedlength = sorted(lengths)
-    #finallongest = sortedlength[num_trials-1] #biggest length
-    #return finallongest
     return lengthy
 
 
 
-# def gene_finder(dna):
-#     """ Returns the amino acid sequences that are likely coded by the specified dna
-
-#         dna: a DNA sequence
-#         returns: a list of all amino acid sequences coded by the sequence dna.
-#     """
-#     aminoacids = []
-#     threshold = longest_ORF_noncoding (dna,1500)
-#     orflist = find_all_ORFs_both_strands(dna)
-
-#     # for i in orflist:
-#     #     if len(i) >= threshold: #else ignore that item in the list
-#     #         aminoacids.append(coding_strand_to_AA(i)) # get the amino acids for that dna sequence in the list and append that item to the list
-#     return orflist
 
 
 #GOING BEYOND CODE BEGINS HERE
@@ -323,12 +281,12 @@ if __name__ == "__main__":
 
 
     i = 0
-    print len(metagenome)
-    print metagenome[20000]
-    # for a in metagenome:    #a is each tuple that is (label, DNA) in metagenome
-    #     dna = a[1]
-    #     snippet = find_all_ORFs_both_strands(dna)
-
+    # print len(metagenome)
+    # print metagenome[20000]
+    for a in metagenome:    #a is each tuple that is (label, DNA) in metagenome
+        dna = a[1]
+        snippet = find_all_ORFs_both_strands(dna)
+        print snippet
 
 
     #     # snippet = longest_ORF(dna)
