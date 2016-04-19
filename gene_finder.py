@@ -302,22 +302,26 @@ if __name__ == "__main__":
     #        print levenshtein(item,nitrogenase) + " distance"
 
     dna = pauls_seq
-    print len(dna)
+    #print len(dna)
     holder_dna = []
     snippet = find_all_ORFs_both_strands(dna)
     for item in snippet:
         #print item
-        #if len(item) > .8*len(nitrogenase):
-        #    holder_dna.append(item)
-        holder_dna.append(item)
+        if len(item) > .8*len(nitrogenase):
+            holder_dna.append(item)
+        #holder_dna.append(item)
 
-    print str(len(holder_dna)) + " number of matches"
+
+    data_output_tuple_list = []
+    #print str(len(holder_dna)) + " number of matches"
     for item in holder_dna:
-        print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
-        print str(levenshtein(item,nitrogenase)) + " distance"
-        print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
-
-
+        #print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
+        #print str(levenshtein(item,nitrogenase)) + " distance"
+        #print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
+        levenshtein_val = levenshtein(item, nitrogenase)
+        percent_match = abs(float(len(item))-float(levenshtein_val))/float(len(item)) * 100
+        data_output_tuple_list.append( ( len(item), len(nitrogenase), levenshtein_val, percent_match )) #,loc_in_item_start, loc_in_item_end
+    print data_output_tuple_list
 
 
     #     # snippet = longest_ORF(dna)
