@@ -315,6 +315,8 @@ if __name__ == "__main__":
     for item in holder_dna:
         print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
         print str(levenshtein(item,nitrogenase)) + " distance"
+        print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
+
 
 
 
