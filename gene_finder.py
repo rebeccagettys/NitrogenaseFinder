@@ -9,6 +9,7 @@ import random
 from distance import levenshtein
 from amino_acids import aa, codons, aa_table   # you may find these useful
 import sys
+#from os import path
 
 sys.setrecursionlimit(3000)
 
@@ -19,6 +20,10 @@ from load import load_metagenome
 metagenome = load_metagenome()
 # metagenome = 'ATGGGAAAACTCCGGCAGATCGCTTTCTACGGCAAGGGCGGGATCGGCAAGTCGACGACCTCGCAGAACACCCTCGCGGCACTGGTCGAGATGGGTCAGAAGATCCTCATCGTCGGCTGCGATCCCAAGGCCGACTCGACCCGCCTGATCCTGAACACCAAGCTGCAGGACACCGTGCTTCACCTCGCCGCCGAAGCGGGCTCCGTCGAGGATCTCGAACTCGAGGATGTGGTCAAGATCGGCTACAAGGGCATCAAATGCACCGAAGCCGGCGGGCCGGAGCCGGGCGTGGGCTGCGCGGGCCGCGGCGTCATCACCGCCATCAACTTCCTGGAAGAGAACGGCGCCTATGACGACGTCGACTACGTCTCCTACGACGTGCTGGGCGACGTGGTCTGCGGCGGCTTCGCCATGCCGATCCGCGAGAACAAGGCGCAGGAAATCTACATCGTCATGTCGGGCGAGATGATGGCGCTCTATGCGGCCAACAACATCGCCAAGGGCATCCTGAAATACGCGAACTCGGGCGGCGTGCGCCTCGGCGGCCTGATCTGCAACGAGCGCAAGACCGACCGCGAGCTGGAACTGGCCGAGGCCCTCGCCGCGCGTCTGGGCTGCAAGATGATCCACTTCGTTCCGCGCGACAATATCGTGCAGCACGCCGAGCTCCGCCGCGAGACGGTCATCCAGTATGCGCCCGAGAGCAAGCAGGCGCAGGAATATCGCGAACTGGCCCGCAAGATCCACGAGAACTCGGGCAAGGGCGTGATCCCGACCCCGATCACCATGGAAGAGCTGGAAGAGATGCTGATGGATTTCGGCATCATGCAGTCCGAGGAAGACCGGCTCGCCGCCATCGCCGCCGCCGAGGCCTGA'
 
+
+from load import load_seq_paul
+
+pauls_seq = load_seq_paul()
 
 
 #Loading the nitrogenase
@@ -282,19 +287,34 @@ if __name__ == "__main__":
 
 
     i = 0
-    # print len(metagenome)
-    # print metagenome[20000]
-    for a in metagenome:    #a is each tuple that is (label, DNA) in metagenome
-        dna = a[1]
-        holder_dna = []
-        snippet = find_all_ORFs_both_strands(dna)
-        for item in snippet:
-            #print item
-            if len(item) > .8*len(nitrogenase):
-                holder_dna.append(item)
-        for item in holder_dna:
-            print len(item), len(nitrogenase)
-            print levenshtein(item,nitrogenase)
+
+    #for a in metagenome:    #a is each tuple that is (label, DNA) in metagenome
+    #    dna = a[1]
+    #    holder_dna = []
+    #    snippet = find_all_ORFs_both_strands(dna)
+    #    for item in snippet:
+    #        #print item
+    #        if len(item) > .8*len(nitrogenase):
+    #            holder_dna.append(item)
+    #    print str(len(holder_dna)) + " number of matches"
+    #    for item in holder_dna:
+    #        print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
+    #        print levenshtein(item,nitrogenase) + " distance"
+
+    dna = pauls_seq
+    holder_dna = []
+    snippet = find_all_ORFs_both_strands(dna)
+    for item in snippet:
+        #print item
+        #if len(item) > .8*len(nitrogenase):
+        #    holder_dna.append(item)
+        holder_dna.append(item)
+
+    print str(len(holder_dna)) + " number of matches"
+    for item in holder_dna:
+        print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
+        print levenshtein(item,nitrogenase) + " distance"
+
 
 
     #     # snippet = longest_ORF(dna)
