@@ -25,8 +25,11 @@ def levenshtein (a,b):
         length2 = levenshtein(a, b[1:]) +1 #so it's 1 different in b, move on, add 1
         length3 = levenshtein(a[1:], b[1:]) + (a[0] != b[0])  #if a 0 and b 0 are not equal, that is = 1, otherwise 0 if false
         known_memo [(a,b)] = min (length1, length2, length3)
+    #print known_memo
     return known_memo[(a,b)]
 
 
-val = levenshtein(a,b)
-print val
+#val = levenshtein(a,b)
+#print val
+
+levenshtein ("alphabet", "alphabetsoup")

@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Last updated: April 11, 2016
+Last updated: April 15, 2016
 Find Nitrogenase
 @author: Erica Lee, Rebecca Gettys, Liv Kelley
 """
 
 import random
+from distance import levenshtein
 from amino_acids import aa, codons, aa_table   # you may find these useful
+import sys
+
+sys.setrecursionlimit(3000)
+
 
 #Importing the metagenome
 
@@ -281,18 +286,19 @@ if __name__ == "__main__":
     # print metagenome[20000]
     for a in metagenome:    #a is each tuple that is (label, DNA) in metagenome
         dna = a[1]
+        holder_dna = []
         snippet = find_all_ORFs_both_strands(dna)
-        print snippet
+        for item in snippet:
+            #print item
+            if len(item) > .8*len(nitrogenase):
+                holder_dna.append(item)
+        for item in holder_dna:
+            print len(item), len(nitrogenase)
+            print levenshtein(item,nitrogenase)
 
 
     #     # snippet = longest_ORF(dna)
     #     # print len(snippet)
-
-
-    #     #I looked through everything in snippet and there really is no nitrogenase in there.
-    #     #But when given nitrogenase, it does return true
-    #     #I also ran this last part with Oliver's code and it also all returns false
-    #     #However, according to Jean, there should be multiple nitrogenase in here
 
     #     i += 1
 
@@ -319,5 +325,3 @@ if __name__ == "__main__":
     # else:
     #     i += 1
     #     print 'False'
-
-
