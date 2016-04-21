@@ -9,6 +9,7 @@ import random
 from distance import levenshtein
 from amino_acids import aa, codons, aa_table   # you may find these useful
 import sys
+import pickle
 #from os import path
 
 sys.setrecursionlimit(3000)
@@ -125,23 +126,23 @@ def rest_of_ORF(dna):
         dna: a DNA sequence
         returns: the open reading frame represented as a string
 >>> rest_of_ORF("ATGTGAA")
-('ATG', 3)
+['ATG', 3]
     >>> rest_of_ORF("ATGAGATAGG")
-    ('ATGAGA', 6)
+    ['ATGAGA', 6]
     >>> rest_of_ORF("ATGAGTAGATAGTAG")
-    ('ATGAGTAGA', 9)
+    ['ATGAGTAGA', 9]
     >>> rest_of_ORF("ACCTGA")
-    ('ACC', 3)
+    ['ACC', 3]
     >>> rest_of_ORF("AAAAA")
-    ('AAAAA', -1)
+    ['AAAAA', -1]
     """
 
     stoplocation = find_stop(dna) #get where to stop
     if stoplocation > 0 or stoplocation == 0: #if it's a reasonable place to stop
         output_sequence = dna[:stoplocation] #slice the dna appropriately +3
-        return output_sequence, stoplocation #and spit that out
+        return [output_sequence, stoplocation] #and spit that out
     elif stoplocation <0: #otherwise just don't change the DNA and output it as is
-        return dna, stoplocation
+        return [dna, stoplocation]
 
 
 def find_start(dna):
@@ -177,9 +178,9 @@ def find_all_ORFs_oneframe(dna):
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
-    [('ATGCATGAATGTAGA', 0, 15), ('ATGTGCCC', 3, -1)]
+    [['ATGCATGAATGTAGA', 0, 15], ['ATGTGCCC', 3, -1]]
     >>> find_all_ORFs_oneframe("CCCATGCATGAATGTAGATAGATGTGCCC")
-    [('ATGCATGAATGTAGA', 3, 15), ('ATGTGCCC', 3, -1)]
+    [['ATGCATGAATGTAGA', 3, 15], ['ATGTGCCC', 3, -1]]
     >>> find_all_ORFs_oneframe("CCAATTA")
     []
     """
@@ -193,7 +194,7 @@ def find_all_ORFs_oneframe(dna):
         end_of_this_orf = rest_of_ORF_output[1]
         start_of_this_orf = startlocation
         dna = dna[startlocation + len(orfout):] #slice the orf off the dna
-        dnalist.append((orfout, start_of_this_orf, end_of_this_orf)) #add the orf and start/stop location to the list of orfs
+        dnalist.append([orfout, start_of_this_orf, end_of_this_orf]) #add the orf and start/stop location to the list of orfs
         startlocation =find_start(dna) #get a new start location
         #print startlocation
     return dnalist
@@ -209,7 +210,7 @@ def find_all_ORFs(dna):
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs("ATGCATGAATGTAG")
-    [('ATGCATGAATGTAG', 0, -1), ('ATGAATGTAG', 3, -1), ('ATG', 6, 3)]
+    [['ATGCATGAATGTAG', 0, -1], ['ATGAATGTAG', 3, -1], ['ATG', 6, 3]]
     >>> find_all_ORFs("")
     []
     """
@@ -232,17 +233,25 @@ def find_all_ORFs_both_strands(dna):
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
-    [('ATGCGAATG', 0, 9), ('ATGCTACATTCGCAT', 3, -1)]
+    [['ATGCGAATG', 0, 9], ['ATGCTACATTCGCAT', 3, -1]]
     >>> find_all_ORFs_both_strands("ATGCGAATG")
-    [('ATGCGAATG', 0, -1)]
+    [['ATGCGAATG', 0, -1]]
 
     """
-    regularorfs= find_all_ORFs(dna) # get all orfs on the regular strand
-    revdna=get_reverse_complement(dna) # get the reverse complement
-    revorfs = find_all_ORFs(revdna) #find the orfs of the reverse complement
+    regular_orfs= find_all_ORFs(dna) # get all orfs on the regular strand
+    for item in regular_orfs:
+        item.append(0) #0 for regular strand
+    #print regularorfs
+
+    rev_dna=get_reverse_complement(dna) # get the reverse complement
+    rev_orfs = find_all_ORFs(rev_dna) #find the orfs of the reverse complement
+    for item in rev_orfs:
+        item.append(1) #1 for reverse strand
+
     finaldnalist = [] #stick em together on a list!
-    finaldnalist.extend(regularorfs)
-    finaldnalist.extend(revorfs)
+    finaldnalist.extend(regular_orfs)
+    finaldnalist.extend(rev_orfs)
+    #print finaldnalist
     return finaldnalist
 
 
@@ -251,15 +260,15 @@ def longest_ORF(dna):
     """ Finds the longest ORF on both strands of the specified DNA and returns it
         as a string #TAA TGA TAG
     >>> longest_ORF("ATGCGAATGTAGCATCAAA")
-    ('ATGCTACATTCGCAT', 3, -1)
+    ['ATGCTACATTCGCAT', 3, -1]
     >>> longest_ORF("AAAAAAAA")
-    ''
+    ['']
     """
     # TAA TGA TAG
     lenlist = []
     orflist = find_all_ORFs_both_strands(dna)
     if orflist == []:
-        return ''
+        return ['']
     for item in orflist:
         lenlist.append(len(item[0])) #add length of that item in the orf list to the end of the length list
         #print lenlist
@@ -325,10 +334,11 @@ if __name__ == "__main__":
     #print len(dna)
     holder_dna = []
     snippet = find_all_ORFs_both_strands(dna)
-    print snippet
+    #print snippet
     for item in snippet:
         #print item
-        if len(item) > .8*len(nitrogenase):
+        #for
+        if len(item[0]) > .8*len(nitrogenase):
             holder_dna.append(item)
         #holder_dna.append(item)
 
@@ -339,8 +349,8 @@ if __name__ == "__main__":
         #print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
         #print str(levenshtein(item,nitrogenase)) + " distance"
         #print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
-        levenshtein_val = levenshtein(item, nitrogenase)
-        percent_match = abs(float(len(item))-float(levenshtein_val))/float(len(item)) * 100
+        levenshtein_val = levenshtein(item[0], nitrogenase)
+        percent_match = abs(float(len(item[0]))-float(levenshtein_val))/float(len(item[0])) * 100
         data_output_tuple_list.append( ( len(item), len(nitrogenase), levenshtein_val, percent_match )) #,loc_in_item_start, loc_in_item_end
     print data_output_tuple_list
 
