@@ -1,6 +1,6 @@
 Erica and Becca:
-Figure out why paul's sequence isn't working correctly
 Get levenshtein to return both distance and step so that you can get the alignment back
+
 
 Liv:
 threshold interface

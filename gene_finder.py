@@ -76,9 +76,20 @@ def get_reverse_complement(dna):
     #for character in(dna):
      #   print character
 
-    dnalist = list(dna) #dna in correct order
-    finallist = [get_complement(element) for element in dnalist]
-    finalstring = ''.join(finallist)
+    #dnalist = list(dna) #dna in correct order
+    #finallist = [get_complement(element) for element in dnalist]
+    #finalstring = ''.join(finallist)
+    #return finalstring
+
+    dnalist = list (dna) #dna in correct order
+    dnalist.reverse() #dna in complement order now
+    finallist = list () #create a totally empty list
+    #for item in dnalist:
+     #   item = get_complement(item)
+    for element in dnalist: #taking reversed element list, getting complement, putting it in final list
+        element = get_complement(element) #now we have the complement
+        finallist.append(element) #stick that one on the end
+        finalstring = ''.join(finallist) #smoosh the list into a string
     return finalstring
 
 def find_stop(dna):
@@ -113,24 +124,24 @@ def rest_of_ORF(dna):
         returns the whole string.
         dna: a DNA sequence
         returns: the open reading frame represented as a string
-    >>> rest_of_ORF("ATGTGAA")
-    'ATG'
+>>> rest_of_ORF("ATGTGAA")
+('ATG', 3)
     >>> rest_of_ORF("ATGAGATAGG")
-    'ATGAGATGA'
+    ('ATGAGA', 6)
     >>> rest_of_ORF("ATGAGTAGATAGTAG")
-    'ATGAGTAGATGA'
-    >>> rest_of_ORF("TGA")
-    'TGA'
+    ('ATGAGTAGA', 9)
+    >>> rest_of_ORF("ACCTGA")
+    ('ACC', 3)
     >>> rest_of_ORF("AAAAA")
-    'AAAAA'
+    ('AAAAA', -1)
     """
 
     stoplocation = find_stop(dna) #get where to stop
     if stoplocation > 0 or stoplocation == 0: #if it's a reasonable place to stop
-        output_sequence = dna[:stoplocation+3] #slice the dna appropriately
-        return output_sequence #and spit that out
+        output_sequence = dna[:stoplocation] #slice the dna appropriately +3
+        return output_sequence, stoplocation #and spit that out
     elif stoplocation <0: #otherwise just don't change the DNA and output it as is
-        return dna
+        return dna, stoplocation
 
 
 def find_start(dna):
@@ -166,9 +177,9 @@ def find_all_ORFs_oneframe(dna):
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
-    ['ATGCATGAATGTAGA', 'ATGTGCCC']
+    [('ATGCATGAATGTAGA', 0, 15), ('ATGTGCCC', 3, -1)]
     >>> find_all_ORFs_oneframe("CCCATGCATGAATGTAGATAGATGTGCCC")
-    ['ATGCATGAATGTAGA', 'ATGTGCCC']
+    [('ATGCATGAATGTAGA', 3, 15), ('ATGTGCCC', 3, -1)]
     >>> find_all_ORFs_oneframe("CCAATTA")
     []
     """
@@ -177,10 +188,14 @@ def find_all_ORFs_oneframe(dna):
     dnalist = [] # blank list
 
     while  startlocation >= 0: # we want to stop after we get to the end
-        orfout = rest_of_ORF(dna[startlocation:]) #get the rest of the orf
+        rest_of_ORF_output = rest_of_ORF(dna[startlocation:])
+        orfout =  rest_of_ORF_output[0] #get the rest of the orf
+        end_of_this_orf = rest_of_ORF_output[1]
+        start_of_this_orf = startlocation
         dna = dna[startlocation + len(orfout):] #slice the orf off the dna
-        dnalist.append(orfout) #add the orf to the list of orfs
+        dnalist.append((orfout, start_of_this_orf, end_of_this_orf)) #add the orf and start/stop location to the list of orfs
         startlocation =find_start(dna) #get a new start location
+        #print startlocation
     return dnalist
 
 
@@ -194,7 +209,7 @@ def find_all_ORFs(dna):
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs("ATGCATGAATGTAG")
-    ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
+    [('ATGCATGAATGTAG', 0, -1), ('ATGAATGTAG', 3, -1), ('ATG', 6, 3)]
     >>> find_all_ORFs("")
     []
     """
@@ -203,6 +218,7 @@ def find_all_ORFs(dna):
     ORFs.extend((find_all_ORFs_oneframe(dna[0:])))
     ORFs.extend((find_all_ORFs_oneframe(dna[1:])))
     ORFs.extend((find_all_ORFs_oneframe(dna[2:])))
+
 
 
 
@@ -216,9 +232,10 @@ def find_all_ORFs_both_strands(dna):
         dna: a DNA sequence
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
-    ['ATGCGAATG', 'ATGCTACATTCGCAT']
+    [('ATGCGAATG', 0, 9), ('ATGCTACATTCGCAT', 3, -1)]
     >>> find_all_ORFs_both_strands("ATGCGAATG")
-    ['ATGCGAATG']
+    [('ATGCGAATG', 0, -1)]
+
     """
     regularorfs= find_all_ORFs(dna) # get all orfs on the regular strand
     revdna=get_reverse_complement(dna) # get the reverse complement
@@ -232,20 +249,23 @@ def find_all_ORFs_both_strands(dna):
 
 def longest_ORF(dna):
     """ Finds the longest ORF on both strands of the specified DNA and returns it
-        as a string
+        as a string #TAA TGA TAG
     >>> longest_ORF("ATGCGAATGTAGCATCAAA")
-    'ATGCTACATTCGCAT'
+    ('ATGCTACATTCGCAT', 3, -1)
     >>> longest_ORF("AAAAAAAA")
     ''
     """
+    # TAA TGA TAG
     lenlist = []
     orflist = find_all_ORFs_both_strands(dna)
     if orflist == []:
         return ''
-    for i in orflist:
-        lenlist.append(len(i)) #add length of that item in the orf list to the end of the length list
+    for item in orflist:
+        lenlist.append(len(item[0])) #add length of that item in the orf list to the end of the length list
+        #print lenlist
     longestorfloc=lenlist.index(max(lenlist))
     longestorf = orflist[longestorfloc]
+    #print orflist
     return longestorf
 
 
@@ -305,6 +325,7 @@ if __name__ == "__main__":
     #print len(dna)
     holder_dna = []
     snippet = find_all_ORFs_both_strands(dna)
+    print snippet
     for item in snippet:
         #print item
         if len(item) > .8*len(nitrogenase):
