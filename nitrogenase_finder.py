@@ -63,7 +63,10 @@ if __name__ == "__main__":
         #print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
         levenshtein_val = levenshtein(item[0], nitrogenase)
         percent_match = abs(float(len(item[0]))-float(levenshtein_val))/float(len(item[0])) * 100
-        data_output_tuple_list.append( ( len(item), len(nitrogenase), levenshtein_val, percent_match )) #,loc_in_item_start, loc_in_item_end
+        start = item[1]
+        end = item[2]
+        rev_flag = item[3]
+        data_output_tuple_list.append( ( len(item), len(nitrogenase), levenshtein_val, percent_match, start, end, rev_flag )) #,loc_in_item_start, loc_in_item_end
     print data_output_tuple_list
 
 
