@@ -88,7 +88,7 @@ def load_metagenome():
     """
     f = open(path.join('.',
                        'data',
-                       '3300000497.a_metagenome_phototrophic community.fna'),
+                       'Olin_1275_FC_R15b_assembled.fa'),
              'r')
 
     metagenome_lines = f.readlines()

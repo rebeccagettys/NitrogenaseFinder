@@ -43,7 +43,7 @@ if __name__ == "__main__":
     #        print levenshtein(item,nitrogenase) + " distance"
 
     holder_dna = []
-    for a in metagenome[9:10]:
+    for a in metagenome[1:2]:
         dna = a[1]
         snippet = find_all_ORFs_both_strands(dna)
         for item in snippet:

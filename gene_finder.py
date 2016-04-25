@@ -167,7 +167,6 @@ def find_start(dna):
     >>> find_start("ATG")
     0
     """
-
     for i in range(len(dna)):
         codon = dna[i:i+3] #get a codon
         if codon == 'ATG' and i%3 == 0: #make sure it's a start codon and it's lined up correctly
@@ -225,11 +224,13 @@ def find_all_ORFs(dna):
     []
     """
 
+    #works but is slightly slower
     # ORFs = []
     # ORFs.extend((find_all_ORFs_oneframe(dna[0:])))
     # ORFs.extend((find_all_ORFs_oneframe(dna[1:])))
     # ORFs.extend((find_all_ORFs_oneframe(dna[2:])))
 
+    #slightly faster 
     dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
     dnalist2 =find_all_ORFs_oneframe(dna[1:]) #shift by one, find orfs
     dnalist3 = find_all_ORFs_oneframe(dna[2:]) #using C so that it can't add a start codon, just shifting it by two now, find ords
