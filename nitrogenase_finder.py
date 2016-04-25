@@ -62,7 +62,7 @@ if __name__ == "__main__":
         start = item[1]
         end = item[2]
         rev_flag = item[3]
-        data_output_tuple_list.append( ( len(item), len(nitrogenase), levenshtein_val, percent_match, start, end, rev_flag )) #,loc_in_item_start, loc_in_item_end
+        data_output_tuple_list.append(  [len(item[0]), len(nitrogenase), levenshtein_val, percent_match, start, end, rev_flag ]) #,loc_in_item_start, loc_in_item_end
     print data_output_tuple_list
 
 
