@@ -13,8 +13,9 @@ metagenome = load_metagenome()
 from load import load_nitrogenase_seq
 nitrogenase = load_nitrogenase_seq()
 
-sys.setrecursionlimit(3200)
-print metagenome[106]
+sys.setrecursionlimit(3000)
+
+
 
 if __name__ == "__main__":
     # import doctest
@@ -42,9 +43,8 @@ if __name__ == "__main__":
     #        print levenshtein(item,nitrogenase) + " distance"
 
     holder_dna = []
-    for a in metagenome[106]:
+    for a in metagenome[9:10]:
         dna = a[1]
-  
         snippet = find_all_ORFs_both_strands(dna)
         for item in snippet:
             if len(item[0]) > .8*len(nitrogenase):

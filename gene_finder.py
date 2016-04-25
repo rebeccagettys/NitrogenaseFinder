@@ -225,10 +225,19 @@ def find_all_ORFs(dna):
     []
     """
 
-    ORFs = []
-    ORFs.extend((find_all_ORFs_oneframe(dna[0:])))
-    ORFs.extend((find_all_ORFs_oneframe(dna[1:])))
-    ORFs.extend((find_all_ORFs_oneframe(dna[2:])))
+    # ORFs = []
+    # ORFs.extend((find_all_ORFs_oneframe(dna[0:])))
+    # ORFs.extend((find_all_ORFs_oneframe(dna[1:])))
+    # ORFs.extend((find_all_ORFs_oneframe(dna[2:])))
+
+    dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
+    dnalist2 =find_all_ORFs_oneframe(dna[1:]) #shift by one, find orfs
+    dnalist3 = find_all_ORFs_oneframe(dna[2:]) #using C so that it can't add a start codon, just shifting it by two now, find ords
+    finaldnalist = []
+    finaldnalist.extend(dnalist1)
+    finaldnalist.extend(dnalist2) #and just make a big list
+    finaldnalist.extend(dnalist3)
+    return finaldnalist
 
 
 
