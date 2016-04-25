@@ -96,8 +96,12 @@ def get_reverse_complement(dna):
     for element in dnalist: #taking reversed element list, getting complement, putting it in final list
         element = get_complement(element) #now we have the complement
         finallist.append(element) #stick that one on the end
-        finalstring = ''.join(finallist) #smoosh the list into a string
-    return finalstring
+        try:
+            finalstring = ''.join(finallist) #smoosh the list into a string
+            return finalstring
+        except TypeError:
+            print "TypeError", finallist
+    
 
 def find_stop(dna):
     """
