@@ -2,7 +2,7 @@ import pickle
 import sys
 from distance import levenshtein
 from gene_finder import *
-
+import time
 
 from load import load_metagenome
 metagenome = load_metagenome()
@@ -13,7 +13,7 @@ metagenome = load_metagenome()
 from load import load_nitrogenase_seq
 nitrogenase = load_nitrogenase_seq()
 
-sys.setrecursionlimit(3000)
+sys.setrecursionlimit(20000)
 
 
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     #        print levenshtein(item,nitrogenase) + " distance"
 
     holder_dna = []
-    for a in metagenome[1:2]:
+    for a in metagenome[1:5]:
         dna = a[1]
         snippet = find_all_ORFs_both_strands(dna)
         for item in snippet:
@@ -51,7 +51,7 @@ if __name__ == "__main__":
                 holder_dna.append(item)
 
 
-data_output_tuple_list = []
+    data_output_tuple_list = []
     #print str(len(holder_dna)) + " number of matches"
     print 'length of holder_dna', len(holder_dna)
     lengths = [len(item[0]) for item in holder_dna]
@@ -64,7 +64,7 @@ data_output_tuple_list = []
         #print str(levenshtein(item,nitrogenase)) + " distance"
         #print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
         #print item[0]
-        print nitrogenase
+        # print nitrogenase
         levenshtein_val = levenshtein(item[0], nitrogenase)
 
         percent_match = abs(float(len(item[0]))-float(levenshtein_val))/float(len(item[0])) * 100
