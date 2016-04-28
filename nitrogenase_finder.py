@@ -51,13 +51,22 @@ if __name__ == "__main__":
                 holder_dna.append(item)
 
 
-    data_output_tuple_list = []
+data_output_tuple_list = []
     #print str(len(holder_dna)) + " number of matches"
+    print 'length of holder_dna', len(holder_dna)
+    lengths = [len(item[0]) for item in holder_dna]
+    longest_idx = lengths.index(max(lengths))
+    start = time.time()
+    dist = levenshtein(holder_dna[longest_idx][0], nitrogenase)
+    print "time to calculate distance for longest", time.time() - start
     for item in holder_dna:
         #print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
         #print str(levenshtein(item,nitrogenase)) + " distance"
         #print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
+        #print item[0]
+        print nitrogenase
         levenshtein_val = levenshtein(item[0], nitrogenase)
+
         percent_match = abs(float(len(item[0]))-float(levenshtein_val))/float(len(item[0])) * 100
         start = item[1]
         end = item[2]
