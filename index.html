@@ -24,11 +24,13 @@
 
 <p>Nitrogenase Finder is a genetics tool designed to help find nitrogenase genes within a metagenome; both the gene and metagenome should be in FASTA format. This project was originally born out of a suggestion by Jean Huang, a microbial biology professor at Olin College. We pursued this so that we could learn about the internal functions of the tools such as BLAST and Genius that we used for bioinformatics analysis. </p>
 
+<p><a href="https://github.com/rebeccagettys/FinalGenetics/blob/master/NitrogenFixationGeneAnalysisProjectProposal.pdf">Project Proposal</a></p>
+
 <h3>
 <a id="project-evolutionnarrative" class="anchor" href="#project-evolutionnarrative" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project evolution/narrative</h3>
 
 <h3>
-<a id="see-jane-run" class="anchor" href="#see-jane-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>See Jane Run!</h3>
+<a id="see-jane-run" class="anchor" href="#see-jane-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>See Jane Run</h3>
 
 <h3>
 <a id="hey-wheres-the-readme" class="anchor" href="#hey-wheres-the-readme" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hey, Where's the README?</h3>
@@ -38,14 +40,22 @@
 <h3>
 <a id="implementation-information" class="anchor" href="#implementation-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implementation information</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>This code takes a list of contigs that are gathered from a microbial community and looks for genes that can fix nitrogen. Since a gene that fixes nitrogen doesn't have to be an exact match for the nitrogenase sequence, we are using a levenshtein algorithm that finds a percent match for nitrogenase and passes it and other information of every gene that has a possibility of being nitrogenase into a pickle file that is then read by our data visualization code to produce a visualization for that gene.</p> <!--This is rough and probably not accurate, please edit and then delete this comment--> 
+
+<!--Put in code diagram somewhere here -->
+
+
+<h3>
+<a id="implementation-information" class="anchor" href="#implementation-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Next Steps</h3>
+
+<p>As of right now, it can take at least 6 hours to finish running for an entire list of contigs from a microbial community. Even when we use PyPy, it takes about 15 minutes to produce results for one contig. Most of this time is spent searching in strings. Thus, we may implement a variation of the Boyer-Moore algorithm in the future to for string matching. </p>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Rebecca Gettys, Olin College Class of 2018 (<a href="https://github.com/rebeccagettys" class="user-mention">@rebeccagettys</a>)
-Liv Kelley, Olin College Class of 2019 (<a href="https://github.com/livkelley" class="user-mention">@livkelley</a>)
-Erica Lee, Olin College Class of 2019 (<a href="https://github.com/ericalee" class="user-mention">@ericalee</a>)</p>
+<p>Rebecca Gettys, Olin College Class of 2018 (<a href="https://github.com/rebeccagettys" class="user-mention">@rebeccagettys</a>)</p>
+<p>Liv Kelley, Olin College Class of 2019 (<a href="https://github.com/livkelley" class="user-mention">@livkelley</a>)</p>
+<p>Erica Lee, Olin College Class of 2019 (<a href="https://github.com/ericasaywhat" class="user-mention">@ericasaywhat</a>)</p>
 
 <h3>
 <a id="resources-we-used" class="anchor" href="#resources-we-used" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resources We Used</h3>
@@ -55,9 +65,11 @@ Softdes professors and NINJAs
 Jean Huang
 <a href="https://github.com/sd16spring/GeneFinder">Starter code for GeneFinder softdes project</a></p>
 
-<p>Modules
-Pygame - <a href="http://pygame.org">http://pygame.org</a>
-Pickle and Sys - built in to python.</p>
+<p>Modules</p>
+<p>Pygame - <a href="http://pygame.org">http://pygame.org</a> </p>
+<p>Pickle and Sys - built in to python.</p>
+<p>PyPy - <a href="pypy.org">See more about PyPy</a><a href="http://pypy.org/download.html">Download here</a></p><
+
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/rebeccagettys/FinalGenetics">Nitrogenase Finder</a> is maintained by <a href="https://github.com/rebeccagettys">rebeccagettys</a>.</span>
