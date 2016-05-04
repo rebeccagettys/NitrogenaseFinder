@@ -31,6 +31,8 @@
 <h3>
 <a id="project-evolutionnarrative" class="anchor" href="#project-evolutionnarrative" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project evolution/narrative</h3>
 
+<p>We started with a gene finder code from earlier this semester that was a gene finding Python program that accurately determined regions of the Salmonella bacterium's DNA that code for proteins. Building off functions in that code, we were able to look through bits of DNA for a nitrogen fixing gene. From there, we were able to implement a levenshtein algorithm that could account for the genes that don't exactly match for the nifH nitrogenase but still fix nitrogen. Our nitrogenase finder code was then able to pass important information such as the start and end index of the gene in the open reading frame, the length of the gene, percentage match with nitrogenase, as well as a whether or not the open reading frame is a reverse complement. This information could then be dumped into a pickle file to be accessed by our data visualization program. </p>
+
 <h3>
 <a id="see-jane-run" class="anchor" href="#see-jane-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>See Jane Run</h3>
 
@@ -67,7 +69,8 @@
 <li>Jean Huang</li>
 <li><a href="https://github.com/sd16spring/GeneFinder">Starter code for GeneFinder softdes project</a></p></li>
 
-<p>Modules</p>
+<h4>
+<a id="modules" class="anchor" href="#modules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modules</h4>
 <li>Pygame - <a href="http://pygame.org">http://pygame.org</a> </li>
 <li>Pickle and Sys - built in to python.</li>
 <li>PyPy - <a href="pypy.org">See more about PyPy</a><a href="http://pypy.org/download.html">Download here</a></li>
