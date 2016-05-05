@@ -7,37 +7,6 @@ Find Nitrogenase
 
 
 
-### FROM HERE DOWN IS CODE THAT IS COMMENTED OUT AND MOVING TO NITROGENASE FINDER
-#import random
-#from distance import levenshtein
-#from amino_acids import aa, codons, aa_table   # you may find these useful
-#import sys
-#import pickle
-##from os import path
-
-
-
-
-#sys.setrecursionlimit(3000)
-
-
-#Importing the metagenome
-
-#from load import load_metagenome
-#metagenome = load_metagenome()
-# metagenome = 'ATGGGAAAACTCCGGCAGATCGCTTTCTACGGCAAGGGCGGGATCGGCAAGTCGACGACCTCGCAGAACACCCTCGCGGCACTGGTCGAGATGGGTCAGAAGATCCTCATCGTCGGCTGCGATCCCAAGGCCGACTCGACCCGCCTGATCCTGAACACCAAGCTGCAGGACACCGTGCTTCACCTCGCCGCCGAAGCGGGCTCCGTCGAGGATCTCGAACTCGAGGATGTGGTCAAGATCGGCTACAAGGGCATCAAATGCACCGAAGCCGGCGGGCCGGAGCCGGGCGTGGGCTGCGCGGGCCGCGGCGTCATCACCGCCATCAACTTCCTGGAAGAGAACGGCGCCTATGACGACGTCGACTACGTCTCCTACGACGTGCTGGGCGACGTGGTCTGCGGCGGCTTCGCCATGCCGATCCGCGAGAACAAGGCGCAGGAAATCTACATCGTCATGTCGGGCGAGATGATGGCGCTCTATGCGGCCAACAACATCGCCAAGGGCATCCTGAAATACGCGAACTCGGGCGGCGTGCGCCTCGGCGGCCTGATCTGCAACGAGCGCAAGACCGACCGCGAGCTGGAACTGGCCGAGGCCCTCGCCGCGCGTCTGGGCTGCAAGATGATCCACTTCGTTCCGCGCGACAATATCGTGCAGCACGCCGAGCTCCGCCGCGAGACGGTCATCCAGTATGCGCCCGAGAGCAAGCAGGCGCAGGAATATCGCGAACTGGCCCGCAAGATCCACGAGAACTCGGGCAAGGGCGTGATCCCGACCCCGATCACCATGGAAGAGCTGGAAGAGATGCTGATGGATTTCGGCATCATGCAGTCCGAGGAAGACCGGCTCGCCGCCATCGCCGCCGCCGAGGCCTGA'
-
-
-#from load import load_seq_paul
-
-#pauls_seq = load_seq_paul()
-#pauls_seq = 'GCCCGGACATTCTACATCTCCGCGAAAACACACACTTTTTCGTCTCCGGCGAAGCTTGGCACGCTCGTTGCAAAACAGGGATCAGCAAGGCGAGGGATGGTTGGCCGAGCAGTTACTGCAAAGGGCAACGTCCGCATCTGAGCCGTGCGACGGTTTTGAACGGAAGAAGGCTGCGCCTCGGCGCAAATCGATCAAGCGGCATTAGGTCAACGGAGAGAAAACATGGCACTTCGGCAAATCGCATTCTACGGCAAGGGCGGCATCGGCAAGTCGACCACCTCGCAGAACACCCTCGCGGCGCTGGTTGAGATGGGTCAGAAGATCCTGATCGTCGGCTGCGACCCCAAGGCGGACTCCACCCGTCTGATCCTCAACACCAAGATGCAGGACACGGTGCTGAGCCTCGCCGCGGAAGCGGGTTCGGTGGAAGACCTCGAACTCGAAGACGTGATGAAGATCGGCTACAAGGGCATCAAGTGCACCGAAGCCGGTGGCCCGGAGCCGGGCGTCGGCTGCGCCGGCCGCGGCGTTATCACCGCGATCAACTTCCTCGAAGAAAACGGCGCCTATGAAGACGTCGACTACGTCTCCTACGACGTGCTCGGCGACGTGGTGTGCGGCGGCTTCGCGATGCCGATCCGTGAAAACAAGGCGCAGGAAATCTACATCGTCATGTCCGGCGAGATGATGGCGCTGTATGCCGCCAACAACATCTCCAAGGGCATTCTGAAGTACGCTTCGTCGGGCGGCGTCCGTCTCGGCGGCCTGATCTGCAACGAGCGCCAGACCGACCGCGAGCTCGACCTCGCCGAAGCGCTGGCCAAGAAGCTGAACTCGAAGCTGATCCACTTCGTGCCGCGCGACAATATCGTGCAGCACGCCGAGCTGCGCCGCCAGACCGTGATCCAGTACGCGCCCGACAGCCAGCAGGCTAAGGAATATCGCGCCCTGGCCAACAAGGTCCATGCCAACTGCGGCAACGGCACCATCCCGACCCCGATCACCATGGAAGAGCTGGAAGAGATGCTGCTCGACTTCGGCATCATGAAGACCGAGGAGCAGCAGCTCGCCGAGCTCGCCGCCAAGGAAGCCGCCAAGGCGGCCGCGTCCGCCTGATCGCATCAGCCAGGCCGGTCGCCTAGCGCGACCGGCCGCCATCCCGGCGGCCCCAGACACGAGGAACAACGATGAGCACCGCAGTCGCAGAATCCCCCGCGGACATCAAGGAACGTAACAAGAAGCTGATCGGCGAAGTCCTGGAGGCCTATCCGGACAAGTCGGCCAAGCGTCGCGCCAAGCATCTCAACACGTACGACGCCGAGAAGGCGGAGTGCTCGGTCAAGTCCAACATCAAGTCGATCCCGGGCGTGATGACGATCCGCGGTTGCGCCTACGCCGGCTCGAAGGGCGTGGTGTGGGGCCCGATCAAGGACATGGTCCACATCAGCCACGGCCCGGTCGGCTGCGGCCAGTATTCGTGGGGTTCGCGCCGCAACTATTACAAGGGAACCACCGGCGTCGACACTTTCGGCACGATGCAGTTCACCTCCGACTTCCAGGAGAAGGACATCGTTTTCGGCGGTGACAAGAAGCTCGGCAAGATCATCGACGAGATCCAGGAGCTGTTCCCGCTCTCCAAGGGCATCTCGGTGCAGTCGGAATGCCCGATCGGTCTGATCGGCGACGACATCGAGGCGGTCTCCAAGGCCAAGTCGAAGCAGTATGACGGCAAGCCGATCATCCCGGTCCGCTGCGAAGGCTTCCGCGGCGTGTCGCAGTCGCTCGGCCACCACATCGCCAACGACGTGATCCGTGACTGGGTGTTCGACAAGGCCGCCGAGAAGAACGCCGGCTTCCAGTCGACCCCCTACGACGTCGCGATCATCGGCGACTACAACATCGGCGGCGATGCCTGGGCCTCGCGCATCCTGCTCGAGGAAATGGGCCTCCGCGTGATCGCGCAGTGGTCCGGCGACGGCACCATCGCGGAGCTGGAGAACACCCCGAAGGCGAAGCTGAACATCCTGCACTGCTACCGCTCGATGAACTACATCACGCGGCACATGGAAGAGAAGTTCGGTATTCCGTGGGTTGAATACAACTTCTTCGGCCCGTCCAAGATCGA'
-
-#Loading the nitrogenase
-
-#from load import load_seq
-#from load import load_nitrogenase_seq
-#nitrogenase = load_nitrogenase_seq()
 
 
 def get_complement(nucleotide):
@@ -80,19 +49,9 @@ def get_reverse_complement(dna):
     'GAGTGCCGTTATTTAGGGATG'
     """
 
-    #for character in(dna):
-     #   print character
-
-    #dnalist = list(dna) #dna in correct order
-    #finallist = [get_complement(element) for element in dnalist]
-    #finalstring = ''.join(finallist)
-    #return finalstring
-
     dnalist = list (dna) #dna in correct order
     dnalist.reverse() #dna in complement order now
     finallist = list () #create a totally empty list
-    #for item in dnalist:
-     #   item = get_complement(item)
     for element in dnalist: #taking reversed element list, getting complement, putting it in final list
         element = get_complement(element) #now we have the complement
         finallist.append(element) #stick that one on the end
@@ -224,13 +183,6 @@ def find_all_ORFs(dna):
     []
     """
 
-    #works but is slightly slower
-    # ORFs = []
-    # ORFs.extend((find_all_ORFs_oneframe(dna[0:])))
-    # ORFs.extend((find_all_ORFs_oneframe(dna[1:])))
-    # ORFs.extend((find_all_ORFs_oneframe(dna[2:])))
-
-    #slightly faster 
     dnalist1= find_all_ORFs_oneframe(dna) # use the default reading frame, find orfs
     dnalist2 =find_all_ORFs_oneframe(dna[1:]) #shift by one, find orfs
     dnalist3 = find_all_ORFs_oneframe(dna[2:]) #using C so that it can't add a start codon, just shifting it by two now, find ords
@@ -261,7 +213,6 @@ def find_all_ORFs_both_strands(dna):
     regular_orfs= find_all_ORFs(dna) # get all orfs on the regular strand
     for item in regular_orfs:
         item.append(0) #0 for regular strand
-    #print regularorfs
 
     rev_dna=get_reverse_complement(dna) # get the reverse complement
     rev_orfs = find_all_ORFs(rev_dna) #find the orfs of the reverse complement
@@ -271,7 +222,6 @@ def find_all_ORFs_both_strands(dna):
     finaldnalist = [] #stick em together on a list!
     finaldnalist.extend(regular_orfs)
     finaldnalist.extend(rev_orfs)
-    #print finaldnalist
     return finaldnalist
 
 
@@ -284,17 +234,14 @@ def longest_ORF(dna):
     >>> longest_ORF("AAAAAAAA")
     ['']
     """
-    # TAA TGA TAG
     lenlist = []
     orflist = find_all_ORFs_both_strands(dna)
     if orflist == []:
         return ['']
     for item in orflist:
         lenlist.append(len(item[0])) #add length of that item in the orf list to the end of the length list
-        #print lenlist
     longestorfloc=lenlist.index(max(lenlist))
     longestorf = orflist[longestorfloc]
-    #print orflist
     return longestorf
 
 
@@ -317,54 +264,4 @@ def longest_ORF_noncoding(dna, num_trials):
 
 
 
-
-
-#GOING BEYOND CODE BEGINS HERE THIS IS ALL MOVING TO NITROGENASE
-
-
-
-
-
-#if __name__ == "__main__":
-
-
-
-    #i = 0
-
-    ##for a in metagenome:    #a is each tuple that is (label, DNA) in metagenome
-    ##    dna = a[1]
-    # #   holder_dna = []
-    # #   snippet = find_all_ORFs_both_strands(dna)
-    # #   for item in snippet:
-    # #       #print item
-    # #       if len(item) > .8*len(nitrogenase):
-    # #           holder_dna.append(item)
-    # #   print str(len(holder_dna)) + " number of matches"
-    # #   for item in holder_dna:
-    # #       print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
-    # #       print levenshtein(item,nitrogenase) + " distance"
-
-    #dna = pauls_seq
-    ##print len(dna)
-    #holder_dna = []
-    #snippet = find_all_ORFs_both_strands(dna)
-    ##print snippet
-    #for item in snippet:
-     #   #print item
-     #   #for
-      #  if len(item[0]) > .8*len(nitrogenase):
-      #      holder_dna.append(item)
-       # #holder_dna.append(item)
-
-
-    #data_output_tuple_list = []
-    ##print str(len(holder_dna)) + " number of matches"
-    #for item in holder_dna:
-     #   #print str(len(item)) + " item length", str(len(nitrogenase)) + " nitrogenase length"
-     #   #print str(levenshtein(item,nitrogenase)) + " distance"
-      #  #print str(abs(len(item)-levenshtein(item,nitrogenase))/len(item)) + '%'
-      #  levenshtein_val = levenshtein(item[0], nitrogenase)
-      #  percent_match = abs(float(len(item[0]))-float(levenshtein_val))/float(len(item[0])) * 100
-      #  data_output_tuple_list.append( ( len(item), len(nitrogenase), levenshtein_val, percent_match )) #,loc_in_item_start, loc_in_item_end
-    #print data_output_tuple_list
 

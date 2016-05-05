@@ -1,6 +1,0 @@
-Erica and Becca:
-Get levenshtein to return both distance and step so that you can get the alignment back
-
-
-Liv:
-threshold interface
