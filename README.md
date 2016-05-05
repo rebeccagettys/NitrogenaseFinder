@@ -1,10 +1,10 @@
-**Nitrogene - A Nitrogenase(Gene) Search Tool and Visualization Maker
+** A Nitrogenase(Gene) Search Tool and Visualization Maker
 
 
 
 *Description:
 
-Nitrogene is a program that finds percentage similarities between a gene and open reading frames (ORFs) in a genome or
+Nitrogenase Finder is a program that finds percentage similarities between a gene and open reading frames (ORFs) in a genome or
 metagenome which is comprised of a set of contigous regions ("contigs"). It identifies the similarities using a memoized
 levenstein distance algorithm. Nitrogenase_finder.py returns a list of dictionaries for each plaustibly-sized ORF that
 contains the length of the ORF, the start and end locations of the ORF, a flag indicating forward or reverse complement
