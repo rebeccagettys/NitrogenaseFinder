@@ -167,7 +167,7 @@ class Nitrogene_Graph_View (object):
 
                 if comp_match_rectangle.collidepoint(Mouse_Position[0], Mouse_Position[1]-self.scroll_y):
                     font = pygame.font.Font(None, 14)
-                    text = font.render(("   " + str(int(comp["percent_match"]) + " %"), 1, (250, 250, 210))
+                    text = font.render(("   " + str(int(comp["percent_match"]) + " %"), 1, (250, 250, 210)) #
                     self.lscreen.blit(text, (Mouse_Position[0], Mouse_Position[1]-self.scroll_y))
 
 
