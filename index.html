@@ -22,24 +22,10 @@
       <h3>
 <a id="big-ideagoalwhat-is-thiswhy-did-we-do-this" class="anchor" href="#big-ideagoalwhat-is-thiswhy-did-we-do-this" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Big Idea/Goal/What is this?/Why did we do this?</h3>
 
-<p><a href="https://github.com/rebeccagettys/FinalGenetics/blob/master/NitrogenFixationGeneAnalysisProjectProposal.pdf">Project Proposal</a></p>
+
 <!--<p>Check out our<a href="https://github.com/rebeccagettys/FinalGenetics/blob/master/NitrogenFixationGeneAnalysisPoster.pdf"> Poster</a>!</p>-->
 
 <p>Nitrogenase Finder is a genetics tool designed to help find nitrogenase genes within a metagenome; both the gene and metagenome should be in FASTA format. This project was originally born out of a suggestion by Jean Huang, a microbial biology professor at Olin College. We pursued this so that we could learn about the internal functions of the tools such as BLAST and Genius that we used for bioinformatics analysis. </p>
-
-<h3>
-<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h3>
-<ol>
-  <li>Clone this <a href="https://github.com/rebeccagettys/FinalGenetics">branch</a></li>
-  <li>Run <code>nitrogenase_finder.py</code></li>
-  <li>Run <code>visualization.py</code></li>
-</ol>
-
-
-<h3>
-<a id="project-evolutionnarrative" class="anchor" href="#project-evolutionnarrative" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project evolution/narrative</h3>
-
-<p>We started with a gene finder code from earlier this semester that was a gene finding Python program that accurately determined regions of the Salmonella bacterium's DNA that code for proteins. Building off functions in that code, we were able to look through bits of DNA for a nitrogen fixing gene. From there, we were able to implement a levenshtein algorithm that could account for the genes that don't exactly match for the nifH nitrogenase but still fix nitrogen. Our nitrogenase finder code was then able to pass important information such as the start and end index of the gene in the open reading frame, the length of the gene, percentage match with nitrogenase, as well as a whether or not the open reading frame is a reverse complement. This information could then be dumped into a pickle file to be accessed by our data visualization program. </p>
 
 <h3>
 <a id="background-information" class="anchor" href="#background-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background Information</h3>
@@ -48,10 +34,31 @@
 <li>The nitrogenase, or nitrogen fixing gene, we are locating is the nifH gene. Although we know the DNA sequence of nitrogenase, the DNA sequencing of a gene does not have to exactly match that of nitrogenase to be able to fix nitrogen. Read more about nif genes<a href="https://en.wikipedia.org/wiki/Nif_gene"> here</a></li>
 <li>A contig is a set of overlapping DNA segments. Read more about contigs<a href="https://en.wikipedia.org/wiki/Contig"> here</a></li>
 
-<h3>
-<a id="hey-wheres-the-readme" class="anchor" href="#hey-wheres-the-readme" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hey, Where's the README?</h3>
 
-<p>Hey look, it's <a href="https://github.com/rebeccagettys/FinalGenetics/blob/master/README.md">here</a>!</p>
+<h3>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h3>
+<ol>
+  <li>Clone this <a href="https://github.com/rebeccagettys/FinalGenetics">branch</a></li>
+  <li>Run <code>nitrogenase_finder.py</code></li>
+  <li>Run <code>visualization.py</code></li>
+  <li>If you would like to:</li>
+  <ul>
+  <li>run this code for metagenomes other than those provided by Jean Huang, edit the load_metagenome function in <code>load.py</code>*</li>
+  <li>run this code to look for genes other than nitrogenase, edit the load_nitrogenase function in <code>load.py<code> to take in a .txt file that contains the proper gene sequence.*</li>
+  <p>*if the format for the nitrogenase and/or metagenome is different than what we have, either change the code to match your formatting or change your formatting</p>
+  </ul>
+</ol>
+
+<p>For more information, take a look at our <a href="https://github.com/rebeccagettys/FinalGenetics/blob/master/README.md">README</a>!</p>
+
+<h3>
+<a id="project-evolutionnarrative" class="anchor" href="#project-evolutionnarrative" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project evolution/narrative</h3>
+
+<p>We started with a gene finder code from earlier this semester that was a gene finding Python program that accurately determined regions of the Salmonella bacterium's DNA that code for proteins. Building off functions in that code, we were able to look through bits of DNA for a nitrogen fixing gene. From there, we were able to implement a levenshtein algorithm that could account for the genes that don't exactly match for the nifH nitrogenase but still fix nitrogen. Our nitrogenase finder code was then able to pass important information such as the start and end index of the gene in the open reading frame, the length of the gene, percentage match with nitrogenase, as well as a whether or not the open reading frame is a reverse complement. This information could then be dumped into a pickle file to be accessed by our data visualization program. </p>
+
+<p><a href="https://github.com/rebeccagettys/FinalGenetics/blob/master/NitrogenFixationGeneAnalysisProjectProposal.pdf">Project Proposal</a></p>
+
+
 
 <h3>
 <a id="implementation-information" class="anchor" href="#implementation-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implementation information</h3>
