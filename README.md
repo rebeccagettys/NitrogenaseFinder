@@ -27,8 +27,14 @@ We also  used the code contained in the base repository for the Software Design 
 *Getting Started and Usage:
 
 Download this program's lastest version from GitHub and install Pygame (and Python 2.7 if you don't already have it!).
- If you would like to run it using the default nitrogenase sequence and metagenome, simply run nitrogenase_finder.py,
- followed by visualization.py. If you would like to change.
+If you would like to run it using the default nitrogenase sequence and metagenome, simply run nitrogenase_finder.py,
+followed by visualization.py. If you would like to run this program on metagenomes other than those provided by Jean
+Huang, edit the load_metagenome function in load.py to point to the appropriate file. If you would like to run this
+program to look for genes other than nitrogenase, edit the load_nitrogenase function in load.py to point to a file that
+contains the proper gene sequence. Please note that if the formatting or file structure on either your metagenome or on
+ your nitrogenase is different than what we have, you will need to either change the code to match your data's
+ formatting or change your formatting to match ours.
+
 Requirements:
 This program runs on python 2.7. It uses the sys and pickle modules, which are built into Python 2. Additionally,
 it uses PyGame for the visualization component (http://pygame.org/hifi.html), and which you will need to have installed
