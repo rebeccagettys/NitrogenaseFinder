@@ -1,14 +1,8 @@
 **Nitrogene - A Nitrogenase(Gene) Search Tool and Visualization Maker
 
-Authors: Rebecca Gettys, Erica Lee, and Liv Kelley
-Microbial Metagenome from Dr. Jean Huang
 
-A code snippet used for the recursive levenshtein memoized distance can be found [here](https://programmingpraxis.com/2014/09/12/levenshtein-distance/);
- it walked us through the implementation and we based ours on this.
-We also  used the code contained in the base repository for the Software Design Miniproject 1 (Gene Finder) which can be
- found on [Github](https://github.com/sd16spring/GeneFinder).
 
-Description:
+*Description:
 
 Nitrogene is a program that finds percentage similarities between a gene and open reading frames (ORFs) in a genome or
 metagenome which is comprised of a set of contigous regions ("contigs"). It identifies the similarities using a memoized
@@ -22,17 +16,26 @@ non-ORF DNA are visualized in black. The locations of these ORFs may be found by
 will cause the start and end index (in nucleotides, counting from zero) of the ORF to appear, in addition to the name of
 the contig on which the ORF is located.
 
-Getting Started and Usage:
+*Authors: Rebecca Gettys, Erica Lee, and Liv Kelley
+Microbial Metagenome from Dr. Jean Huang
+
+A code snippet used for the recursive levenshtein memoized distance can be found [here](https://programmingpraxis.com/2014/09/12/levenshtein-distance/);
+ it walked us through the implementation and we based ours on this.
+We also  used the code contained in the base repository for the Software Design Miniproject 1 (Gene Finder) which can be
+ found on [Github](https://github.com/sd16spring/GeneFinder).
+
+*Getting Started and Usage:
 
 Download this program's lastest version from GitHub and install Pygame (and Python 2.7 if you don't already have it!).
  If you would like to run it using the default nitrogenase sequence and metagenome, simply run nitrogenase_finder.py,
- followed by visualization.py. If you would like to change
+ followed by visualization.py. If you would like to change.
 Requirements:
 This program runs on python 2.7. It uses the sys and pickle modules, which are built into Python 2. Additionally,
 it uses PyGame for the visualization component (http://pygame.org/hifi.html), and which you will need to have installed
 in order to utilize our program.
 
 
-MIT license used for this program.
+This program is released as is, with no guarantees to it's function, under the MIT license. Hold the authors harmless
+and check your outputs for rationality - there be BUGS out there!
 
 
