@@ -1,5 +1,3 @@
-
-
 #This code creates a visualization for the nitrogenase_finder.py code, which finds nitrogenase matches from the gene_finder.py code. Bars in this simulation are contigs,
 #and the bars drawn on top of them. Hover the mouse over one of these bars to find the percentage match.
 #Type the threshold for DNA accuracy for a match in the command window.
@@ -91,6 +89,7 @@ class Nitrogene_Graph_View (object):
                                         float(orf["end"]- orf["start"])/self.comp_fact,
                                         self.Genome_Bar_Height)
 
+
             #This code ensures that no orfs too short to be nitrogenase are used as such.
 
             if orf["end"] - orf["start"] < .8*orf["length_nitrogenase"]:
@@ -160,23 +159,25 @@ class Nitrogene_Graph_View (object):
                 #This code defines the color and draws the matches.
 
                 elif comp["percent_match"]  > self.threshold:
-                    color_match = (0, comp["percent_match"] , 0, 0)
+                    color_match = (0, comp["percent_match"], 0, 0)
                     pygame.draw.rect(self.lscreen, color_match, comp_match_rectangle, 0)
 
                 #This code draws the percent matches when the cursor hovers over the matches.
 
                 if comp_match_rectangle.collidepoint(Mouse_Position[0], Mouse_Position[1]-self.scroll_y):
                     font = pygame.font.Font(None, 14)
-                    text = font.render(("   " + str(int(comp["percent_match"]) + " %"), 1, (250, 250, 210)) #
+                    text = font.render(("   " + str(int(comp["percent_match"])) + " %"), 1, (250, 250, 210))
                     self.lscreen.blit(text, (Mouse_Position[0], Mouse_Position[1]-self.scroll_y))
 
 
     def update(self):
 
+            self.screen.fill((0,0,0,0))
+
             self.screen.blit(self.lscreen, (0, self.scroll_y)) #This code updates the scrolling and screen.
 
             font = pygame.font.Font(None, 36) #This code creates the title and keeps it centered on the screen.
-            text = font.render("Nitrogene Visualization", 1, (255, 255, 255))
+            text = font.render("Nitrogenase Visualization", 1, (255, 255, 255))
             textpos = text.get_rect()
             self.screen.blit(text, textpos)
             self.screen.blit(self.screen, (0,0))
@@ -188,7 +189,7 @@ class Nitrogene_Graph_View (object):
 
 class Nitrogenase_Controller(object):
 
-    """ Initializes and executes scrolling through the up and down arrows."""
+    """ Initializes and executes scrolling through the up and down arrows. Also allows the program to end when you hit the x in the upper left corner."""
 
     def __init__(self, view):
         """Initialize view within the specialized model"""
@@ -201,7 +202,9 @@ class Nitrogenase_Controller(object):
                 if e.button == 4:
                     self.view.scroll_y = min(self.view.scroll_y + 15, 0) #Allows the up arrow to be used.
                 if e.button == 5:
-                    self.view.scroll_y = max(self.view.scroll_y - 15, -6000) #Allows the down arrow to be used.
+                    self.view.scroll_y = max(self.view.scroll_y - 15, -10000) #Allows the down arrow to be used.
+            elif e.type == pygame.QUIT: #Closing the window by hitting the x in the top left corner.
+                pygame.quit()
 
 
 #Running the Code (Adapted from the in class brick breaker code.)
@@ -209,7 +212,7 @@ class Nitrogenase_Controller(object):
 if __name__ == '__main__':
 
     pygame.init()
-    lsize = (600, 6000) #W,L
+    lsize = (600, 10000) #W,L
     size = (600, 640)
 
     model = Nitrogene_Graph_Model(size)  #Initializes the model.
@@ -221,4 +224,6 @@ if __name__ == '__main__':
         view.draw() #Updates draw.
         view.update() #Updates the scrolling, screen, title, and key.
         controller.Key_Press() #updates the scrolling function.
+
+
 
